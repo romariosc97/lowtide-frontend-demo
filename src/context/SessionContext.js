@@ -6,8 +6,8 @@ import { useSnackbar } from 'notistack';
 import io from "socket.io-client";
 
 const SessionContext = createContext();
-//const API_URL = 'https://ltapi.herokuapp.com/api';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
 
 const SessionContextProvider = (props) => {
 

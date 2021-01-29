@@ -4,8 +4,8 @@ import { FilterContext } from '../context/FilterContext';
 import axios from 'axios';
 import io from "socket.io-client";
 
-//const API_URL = 'https://ltapi.herokuapp.com/api';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
 
 const useDeployCards = (type) => {
   const [cards, setCards] = useState([]);

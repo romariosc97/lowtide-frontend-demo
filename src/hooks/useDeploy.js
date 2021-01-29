@@ -3,8 +3,8 @@ import axios from 'axios';
 //import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
 
-//const API_URL = 'https://ltapi.herokuapp.com/api';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
 
 const useDeploy = () => {
   const [selectedTemplates, setSelectedTemplates] = useState([]);

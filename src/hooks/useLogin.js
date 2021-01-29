@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 
 import { SessionContext } from '../context/SessionContext';
 
-//const API_URL = 'https://ltapi.herokuapp.com/api';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
 
 const useLogin = () => {
   // axios.defaults.withCredentials = true;
