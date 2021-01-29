@@ -1,0 +1,42 @@
+@import '../assets/variables.scss';
+
+.filterBoxContent {
+    padding: 1rem;
+    font-family: Montserrat;
+    font-size: .8rem;
+    width: 20rem;
+
+    &__filters {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+
+        &>* {
+            flex: 1;
+            margin-bottom: 1rem
+        }
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        // color: $main-blue
+    }
+
+    &__buttonContainer {
+        display: flex;
+        justify-content: center
+    }
+
+    &__filterGroup {
+        // So we can position the clear button as absolute with this element as the positioned ancestor
+        position: relative;
+    }
+
+    &__clearButtonContainer {
+        position: absolute;
+        top: 0;
+        right: 50px
+    }
+}
