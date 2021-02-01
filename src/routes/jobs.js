@@ -7,9 +7,12 @@ import useJobs from '../hooks/useJobs';
 import io from "socket.io-client";
 import { GlobalContext } from '../context/GlobalContext';
 
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
+
 function Jobs() {
 
-  const socket = io('http://localhost:8080', {transports: ['websocket', 'polling', 'flashsocket']});
+  const socket = io(API_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const classes = useAccordionStyles();
   const {jobs, getSessionJobs, expanded, setExpanded, jobStatus} = useJobs();
   const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter } = useContext(GlobalContext);

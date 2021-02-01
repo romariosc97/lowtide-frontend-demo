@@ -14,6 +14,9 @@ import io from "socket.io-client";
 //import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
 
+const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'http://localhost:8080/api';
+
 const useStyles = makeStyles({
   buttonLabel: {
     fontFamily: 'Montserrat',
@@ -36,7 +39,7 @@ const useStyles = makeStyles({
 
 const Deploy = () => {
 
-  const socket = io('http://localhost:8080', {transports: ['websocket', 'polling', 'flashsocket']});
+  const socket = io(API_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const classes = useStyles();
   let [availableCards] = useDeployCards('available');
   let [orgCards] = useDeployCards('org');
