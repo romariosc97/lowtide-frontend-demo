@@ -32,12 +32,12 @@ const useStyles = makeStyles({
   },
 });
 
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
+const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+//const SOCKET_URL = 'http://localhost:8080/';
 
 function Timeshift() {
 
-  const socket = io(API_URL, {transports: ['websocket', 'polling', 'flashsocket']});
+  const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
   const { folders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
   const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus} = useTimeshift();

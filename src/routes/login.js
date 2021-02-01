@@ -21,8 +21,8 @@ const useStyles = makeStyles({
   },
 });
 
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
+const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+//const SOCKET_URL = 'http://localhost:8080/';
 
 const Login = () => {
   const classes = useStyles();
@@ -84,7 +84,7 @@ const Login = () => {
         <div className="login-screen__or-text">or</div>
         <form
           className="login-screen__form"
-          action={API_URL}
+          action={SOCKET_URL}
           method="GET"
         >
           <button className="login-screen__salesforce">

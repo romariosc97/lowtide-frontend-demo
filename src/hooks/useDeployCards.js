@@ -7,6 +7,9 @@ import io from "socket.io-client";
 const API_URL = 'https://ltapi.herokuapp.com/api';
 //const API_URL = 'http://localhost:8080/api';
 
+const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+//const SOCKET_URL = 'http://localhost:8080/';
+
 const useDeployCards = (type) => {
   const [cards, setCards] = useState([]);
 
@@ -48,7 +51,7 @@ const useDeployCards = (type) => {
       setAllOrgTags(allTags);
     };
     setNewCardsAndTags();
-    const socket = io('http://localhost:8080', {transports: ['websocket', 'polling', 'flashsocket']});
+    const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
     socket.on("jobEnded", data => {
       console.log(data)
       if(type==='org'){

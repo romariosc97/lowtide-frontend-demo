@@ -9,9 +9,12 @@ const SessionContext = createContext();
 const API_URL = 'https://ltapi.herokuapp.com/api';
 //const API_URL = 'http://localhost:8080/api';
 
+const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+//const SOCKET_URL = 'http://localhost:8080/';
+
 const SessionContextProvider = (props) => {
 
-  const socket = io('http://localhost:8080', {transports: ['websocket', 'polling', 'flashsocket']});
+  const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
