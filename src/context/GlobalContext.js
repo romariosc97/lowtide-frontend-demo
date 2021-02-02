@@ -3,6 +3,8 @@ import React, { useState, createContext } from 'react';
 const GlobalContext = createContext();
 
 const GlobalContextProvider = (props) => {
+  const [username, setUsername] = useState(null);
+
   const [jobsPending, setJobsPending] = useState(false);
   const [deploying, setDeploying] = useState([]);
   const [jobDetail, setJobDetail] = useState([]);
