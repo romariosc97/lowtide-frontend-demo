@@ -7,6 +7,7 @@ import Illustration from '../assets/Charts.svg';
 import SalesforceIcon from '../assets/salesforce1.svg';
 
 import useLogin from '../hooks/useLogin';
+import { SOCKET_URL } from '../config/configuration';
 
 const useStyles = makeStyles({
   paperRoot: {
@@ -20,9 +21,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
 });
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
 
 const Login = () => {
   const classes = useStyles();

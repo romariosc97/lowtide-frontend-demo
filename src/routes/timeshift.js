@@ -11,6 +11,7 @@ import '../assets/pagesStyles.scss';
 import io from "socket.io-client";
 
 import useTimeshift from '../hooks/useTimeshift';
+import { SOCKET_URL } from '../config/configuration';
 
 const useStyles = makeStyles({
   buttonLabel: {
@@ -31,9 +32,6 @@ const useStyles = makeStyles({
     backgroundColor: '#F6F6F6',
   },
 });
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
 
 function Timeshift() {
 

@@ -2,9 +2,7 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 //import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
-
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
+import { API_URL } from '../config/configuration';
 
 const useDeploy = () => {
   const [selectedTemplates, setSelectedTemplates] = useState([]);

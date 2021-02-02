@@ -6,9 +6,7 @@ import useAccordionStyles from '../hooks/useAccordionStyles.js';
 import useJobs from '../hooks/useJobs';
 import io from "socket.io-client";
 import { GlobalContext } from '../context/GlobalContext';
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
+import { SOCKET_URL } from '../config/configuration';
 
 function Jobs() {
 

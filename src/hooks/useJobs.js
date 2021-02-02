@@ -2,9 +2,7 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import { SessionContext } from '../context/SessionContext';
 import { GlobalContext } from '../context/GlobalContext';
-  
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
+import { API_URL } from '../config/configuration';
 
 const useJobs = () => {
     const { jobs, setJobs } = useContext(SessionContext);

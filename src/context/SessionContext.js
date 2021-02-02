@@ -4,13 +4,9 @@ import axios from 'axios';
 import { GlobalContext } from './GlobalContext';
 import { useSnackbar } from 'notistack';
 import io from "socket.io-client";
+import { API_URL, SOCKET_URL } from '../config/configuration';
 
 const SessionContext = createContext();
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
 
 const SessionContextProvider = (props) => {
 

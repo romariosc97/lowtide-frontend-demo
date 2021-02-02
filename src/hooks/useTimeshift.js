@@ -1,9 +1,7 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { GlobalContext } from '../context/GlobalContext';
-
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
+import { API_URL } from '../config/configuration';
 
 const useTimeshift = () => {
   const [timeshiftStatus, setTimeshiftStatus] = useState(false);

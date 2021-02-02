@@ -3,12 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { FilterContext } from '../context/FilterContext';
 import axios from 'axios';
 import io from "socket.io-client";
-
-const API_URL = 'https://ltapi.herokuapp.com/api';
-//const API_URL = 'http://localhost:8080/api';
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
+import { SOCKET_URL, API_URL } from '../config/configuration';
 
 const useDeployCards = (type) => {
   const [cards, setCards] = useState([]);
