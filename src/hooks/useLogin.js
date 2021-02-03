@@ -7,7 +7,7 @@ import { API_URL } from '../config/configuration'
 
 const useLogin = () => {
   // axios.defaults.withCredentials = true;
-  const { setIsLoggedIn, setNewUsername } = useContext(SessionContext);
+  const { setIsLoggedIn, setLoginAction, loginAction } = useContext(SessionContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,7 +37,7 @@ const useLogin = () => {
       if (response.status === 200) {
         //console.log({ response });
         console.log('cookie', Cookies.get());
-        setNewUsername();
+        setLoginAction(loginAction+1)
         return setIsLoggedIn(true);
       }
     } catch (error) {

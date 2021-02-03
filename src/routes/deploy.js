@@ -52,17 +52,19 @@ const Deploy = () => {
     if(!isMounted){
         socket.emit("subscribeToJobUpdates");
         socket.on("jobEnded", data => {
-          let deployingTmp = [];
-          if(deploying.length>0){
-            console.log('Deployed')
-            for (let i = 0; i < deploying.length; i++) {
-              if(data.template_keys.indexOf(deploying[i])===-1){
-                deployingTmp.push(deploying[i]);
+          if(data.template_keys){
+            let deployingTmp = [];
+            if(deploying.length>0){
+              console.log('Deployed')
+              for (let i = 0; i < deploying.length; i++) {
+                if(data.template_keys.indexOf(deploying[i])===-1){
+                  deployingTmp.push(deploying[i]);
+                }
               }
             }
+            setDeploying(deployingTmp);
+            setJobsDeployed([...jobsDeployed, data.id]);
           }
-          setDeploying(deployingTmp);
-          setJobsDeployed([...jobsDeployed, data.id]);
         });
     }
     return () => { isMounted = true };

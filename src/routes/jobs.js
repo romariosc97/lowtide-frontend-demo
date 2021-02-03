@@ -32,27 +32,29 @@ function Jobs() {
       }else{
         socket.emit("subscribeToJobUpdates");
         socket.on("jobEnded", data => {
-          let deployingTmp = [];
-          for (let i = 0; i < deploying.length; i++) {
-            if(data.template_keys.indexOf(deploying[i])===-1){
-              deployingTmp.push(deploying[i]);
+          if(data.template_keys){
+            let deployingTmp = [];
+            for (let i = 0; i < deploying.length; i++) {
+              if(data.template_keys.indexOf(deploying[i])===-1){
+                deployingTmp.push(deploying[i]);
+              }
             }
-          }
-          setDeploying(deployingTmp);
-          setJobsDeployed([...jobsDeployed, data.id]);
-          
-          let passTmp = false;
-          let jobDetailTmp = jobDetail.map((row, i) => {
-            if(row.id === data.id){
-              row.result = data.result;
-              passTmp = true;
+            setDeploying(deployingTmp);
+            setJobsDeployed([...jobsDeployed, data.id]);
+            
+            let passTmp = false;
+            let jobDetailTmp = jobDetail.map((row, i) => {
+              if(row.id === data.id){
+                row.result = data.result;
+                passTmp = true;
+              }
+              return row;
+            });
+            if(!passTmp){
+              jobDetailTmp.push({id: data.id, result: data.result});
             }
-            return row;
-          });
-          if(!passTmp){
-            jobDetailTmp.push({id: data.id, result: data.result});
+            setJobDetail(jobDetailTmp);
           }
-          setJobDetail(jobDetailTmp);
         });
       }
     }

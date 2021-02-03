@@ -35,13 +35,16 @@ const useCheckboxStyles = makeStyles({
 
 const CustomCheckbox = ({ selected, parentId, id, children, developerName, name }) => {
   const classes = useCheckboxStyles();
-  const { timeshifting, selectedDatasets, setSelectedDatasets, datasets, setSelectedFolder } = useContext(GlobalContext);
+  const { timeshifting, selectedDatasets, setSelectedDatasets, datasets, setSelectedFolder, selectedFolder } = useContext(GlobalContext);
   const [isSelected, setSelected] = useState(selected);
   const [isDisabled, setDisabled] = useState(true);
   useEffect(() => {
     if(selectedDatasets.indexOf(id)!==-1){
       setSelected(true);
     }else if(isSelected===true && children===undefined){
+      setSelected(false);
+    }else if(selectedFolder.folderId===id && children!==undefined && selectedDatasets.length===0){
+      console.log('Hola')
       setSelected(false);
     }
     /*
@@ -77,6 +80,7 @@ const CustomCheckbox = ({ selected, parentId, id, children, developerName, name 
             setSelectedDatasets([]);
           }else{
             setSelectedDatasets(children.map((row) => row.Id));
+            setSelectedFolder({folderApiName: developerName, folderLabel: name, folderId: id});
           }
         }else{
           if(isSelected){
@@ -85,10 +89,8 @@ const CustomCheckbox = ({ selected, parentId, id, children, developerName, name 
             );
           }else{
             setSelectedDatasets([...selectedDatasets, id]);
+            setSelectedFolder({folderApiName: developerName, folderLabel: name, folderId: parentId});
           }
-        }
-        if(!isSelected){
-          setSelectedFolder({folderApiName: developerName, folderLabel: name});
         }
       }}
       classes={{

@@ -53,6 +53,11 @@ function Timeshift() {
         console.log(data);
       });
       socket.on("jobEnded", data => {
+        if(data.result.success){
+
+        }else{
+          
+        }
         setSelectedDatasets([]);
         setTimeshiftStatus(false);
         setSelectedFolder({});

@@ -41,7 +41,6 @@ const useDeploy = () => {
 
       setDeployStatus(false);
       setJobsPending(true);
-      console.log(deploying, 'Button Clicked');
     } catch (error) {
       setDeployStatus(false);
       console.log(error.message);

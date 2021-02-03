@@ -43,7 +43,7 @@ const useTimeshift = () => {
       withCredentials: true,
     });
     
-    const result = await datasetAxios.post(`${API_URL}/org/timeshift`, {
+    await datasetAxios.post(`${API_URL}/org/timeshift`, {
       folderApiName: selectedFolder.folderApiName,
       folderLabel: selectedFolder.folderLabel,
       datasetArray: selectedDatasets
