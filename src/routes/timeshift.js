@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import NavBar from '../components/Navbar';
 import Card from '../components/TimeshiftCard';
+import OrgCard from '../components/TimeshiftOrgCard';
 import CardContainer from '../components/CardContainer';
 import { GlobalContext } from '../context/GlobalContext';
 import '../assets/pagesStyles.scss';
@@ -37,14 +38,15 @@ function Timeshift() {
 
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
-  const { folders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
-  const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus} = useTimeshift();
+  const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
+  const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
   const classes = useStyles();
 
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
       getFolders();
+      getOrgFolders();
       socket.emit("subscribeToJobUpdates");
       socket.on("jobUpdate", data => {
         console.log(data);
@@ -114,7 +116,23 @@ function Timeshift() {
           <CardContainer
             styles={{ width: '30vw', height: '65vh' }}
 
-          ></CardContainer>
+          >
+            {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgFolders.map((card, i) => (
+              <OrgCard
+                key={i}
+                type={'available'}
+                data={{
+                  id: card.Id,
+                  name: card.MasterLabel,
+                  type: card.attributes.type,
+                  dataFlowType: card.DataflowType,
+                  developer: card.DeveloperName,
+                  createdDate: card.CreatedDate
+                }}
+
+              />
+            ))}
+          </CardContainer>
         </div>
       </main>
     </div>

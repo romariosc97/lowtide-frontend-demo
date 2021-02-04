@@ -52,6 +52,7 @@ const Deploy = () => {
     if(!isMounted){
         socket.emit("subscribeToJobUpdates");
         socket.on("jobEnded", data => {
+          console.log('hi locos')
           if(data.template_keys){
             let deployingTmp = [];
             if(deploying.length>0){
