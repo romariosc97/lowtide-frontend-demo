@@ -39,7 +39,7 @@ const Card = ({
         if(deploying.indexOf(data.template_key)!==-1 && selected){
           setSelected(false);
         }
-        //console.log(selected, 'DeployCard')
+        //console.log(selected, 'DeployCard', data)
       }
     }
     return () => { isMounted = true };

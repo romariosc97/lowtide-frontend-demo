@@ -35,9 +35,11 @@ const SessionContextProvider = (props) => {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
+      console.log(' session')
       const setNewUsername = async () => {
         socket.emit("subscribeToJobUpdates");
         socket.on("jobEnded", data => {
+          console.log(data);
           if(data.template_keys){
             setActionJobCounter(actionJobCounter+1);
             enqueueSnackbar(`Job ${data.id} have been deployed successfully!`, 

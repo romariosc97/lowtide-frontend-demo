@@ -36,11 +36,12 @@ const useJobs = () => {
             setJobs(jobsTmp);
             if(jobsTmp.length<=0)
                 setJobStatus(false);
-
             let expanded_tmp = {};
             for (let i = 0; i < jobsTmp.length; i++) {
-                for (let ia = 0; ia < jobsTmp[i].job_details.templates.length; ia++) {
-                    expanded_tmp[`panel${i}-${ia}`] = false;
+                if(jobsTmp[i].job_name==="Deploy Operation"){
+                    for (let ia = 0; ia < jobsTmp[i].job_details.templates.length; ia++) {
+                        expanded_tmp[`panel${i}-${ia}`] = false;
+                    }
                 }
             }
             setExpanded(expanded_tmp);

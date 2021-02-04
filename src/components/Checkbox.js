@@ -40,14 +40,14 @@ const CustomCheckbox = ({ selected, setParentSelected, template_key }) => {
   const [isDisabled, setDisabled] = useState(false);
   useEffect(() => {
     if(deploying.indexOf(template_key)!==-1){
-      //console.log(true, 'Checkbox');
+      console.log(true, 'Checkbox', template_key);
       setSelected(false);
       setDisabled(true);
-    }else{
-      //console.log(false, 'Checkbox');
+    }/*else{
+      console.log(false, 'Checkbox', template_key);
       setSelected(false);
       setDisabled(false);
-    }
+    }*/
   }, [deploying]);
   return (
     <Checkbox

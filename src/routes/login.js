@@ -7,7 +7,7 @@ import Illustration from '../assets/Charts.svg';
 import SalesforceIcon from '../assets/salesforce1.svg';
 
 import useLogin from '../hooks/useLogin';
-import { SOCKET_URL } from '../config/configuration';
+import { API_URL } from '../config/configuration';
 
 const useStyles = makeStyles({
   paperRoot: {
@@ -82,7 +82,7 @@ const Login = () => {
         <div className="login-screen__or-text">or</div>
         <form
           className="login-screen__form"
-          action={SOCKET_URL}
+          action={`${API_URL}/auth/oauth`}
           method="GET"
         >
           <button className="login-screen__salesforce">

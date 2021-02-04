@@ -94,7 +94,10 @@ function Jobs() {
                       {card.run_at}
                     </p>
                     <div className={classes.templates}>
-                      {jobDetail[i] !== undefined ? ( jobDetail[i].result ? card.job_details.templates.map((template, ia) => (
+                      
+                      {jobDetail[i] !== undefined ? ( jobDetail[i].result ? 
+                      ( card.job_name === "Deploy Operation" ?
+                      card.job_details.templates.map((template, ia) => (
                           <Fragment key={ia}>
                             <Accordion className={classes.accordion} expanded={expanded[`panel${+i}-${ia}`]} onChange={() => handleChange(`panel${+i}-${ia}`)}>
                               <AccordionSummary
@@ -124,7 +127,9 @@ function Jobs() {
                               </AccordionDetails>
                             </Accordion>
                           </Fragment>
-                      )) : pending ) : 
+                      ))
+                      : (jobDetail[i].result.success===false ? <p><b>Error message: </b><br/>{jobDetail[i].result.message}</p> : "exito" ) ) 
+                      : pending ) : 
                         pending
                       }
                     </div>
