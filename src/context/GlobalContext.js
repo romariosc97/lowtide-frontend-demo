@@ -10,6 +10,7 @@ const GlobalContextProvider = (props) => {
   const [jobsDeployed, setJobsDeployed] = useState([]);
   const [actionJobCounter, setActionJobCounter] = useState(0);
   const [actionDeployCounter, setActionDeployCounter] = useState(0);
+  const [jobUpdates, setJobUpdates] = useState({});
 
   const [folders, setFolders] = useState([]);
   const [orgFolders, setOrgFolders] = useState([]);
@@ -46,7 +47,9 @@ const GlobalContextProvider = (props) => {
         folders,
         setFolders,
         orgFolders,
-        setOrgFolders
+        setOrgFolders,
+        jobUpdates,
+        setJobUpdates
       }}
     >
       {props.children}

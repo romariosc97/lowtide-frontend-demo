@@ -8,7 +8,7 @@ const useDeploy = () => {
   const [selectedTemplates, setSelectedTemplates] = useState([]);
   const [deployStatus, setDeployStatus] = useState(false);
   //const { setDeploying } = useContext(FilterContext);
-  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter } = useContext(GlobalContext);
+  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter, setJobUpdates } = useContext(GlobalContext);
 
   const handleCardSelection = (key, selected) => {
     if (selected) {
@@ -35,12 +35,14 @@ const useDeploy = () => {
       setSelectedTemplates([]);
       setDeploying([...deploying, ...tmp]);
 
-      await deployAxios.post(`${API_URL}/repository/template/beta/deploy`, {
+      const result = await deployAxios.post(`${API_URL}/repository/template/beta/deploy`, {
         "templates": selectedTemplates
       });
 
       setDeployStatus(false);
       setJobsPending(true);
+      //console.log(result.data);
+      //setJobUpdates({...jobUpdates, [result.data.job_id]: "Job started."});
     } catch (error) {
       setDeployStatus(false);
       console.log(error.message);

@@ -5,8 +5,8 @@ import {
   AccordionDetails,
 } from '@material-ui/core/';
 import clsx from 'clsx';
-import { CircularProgress, Box } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { CircularProgress, Box, IconButton} from '@material-ui/core';
+import { ExpandMore, Delete } from '@material-ui/icons';
 
 import Checkbox from './TimeshiftCheckbox';
 import Badge from './Badge';
@@ -36,6 +36,10 @@ const Card = ({
     return () => { isMounted = true };
   }, []);
 
+  const deleteOrgDataset = () => {
+    console.log('Dataset deleted from your ORG.');
+  };
+
   const badgeOptions = {
     background: '#27AE60',
     text: 'New version',
@@ -54,7 +58,7 @@ const Card = ({
       }}
     >
       <AccordionSummary
-        // expandIcon={<ExpandMore className={classescard.arrow} />}
+        expandIcon={<ExpandMore className={classescard.arrow} />}
         id="card-header"
         className={clsx(classescard.header, {
           [classescard.selected]: false,
@@ -69,7 +73,11 @@ const Card = ({
         <div className="card-header__leftArea">
           {data.name}
         </div>
-        <div className="card-header__rightArea">{false ? badge : null}</div>
+        <div className="card-header__rightArea">
+          <IconButton className={classesaccordion.deleteButton} aria-label="Delete" onClick={deleteOrgDataset}>
+            <Delete />
+          </IconButton>
+        </div>
       </AccordionSummary>
 
       <AccordionDetails

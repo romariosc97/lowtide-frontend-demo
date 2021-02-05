@@ -42,9 +42,16 @@ const SessionContextProvider = (props) => {
           console.log(data);
           if(data.template_keys){
             setActionJobCounter(actionJobCounter+1);
-            enqueueSnackbar(`Job ${data.id} have been deployed successfully!`, 
-              {...SNACKBAR_DEFAULT, variant: 'success'}
-            )
+            if(data.template_keys.length===1){
+              enqueueSnackbar(`Template "${data.template_keys[0]}" has been deployed successfully!`, 
+                {...SNACKBAR_DEFAULT, variant: 'success'}
+              )
+            }else{
+              enqueueSnackbar(`${data.template_keys.length} templates have been deployed successfully!`, 
+                {...SNACKBAR_DEFAULT, variant: 'success'}
+              )
+            }
+
           }else{
             if(data.result.success){
               enqueueSnackbar(`Job ${data.id} have been deployed successfully!`, 

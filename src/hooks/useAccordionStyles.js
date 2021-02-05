@@ -75,6 +75,12 @@ const useAccordionStyles = makeStyles({
   },
   accordionGray: {
     background: '#f0f0f0'
+  },
+  status: {
+    marginTop: '20px'
+  },
+  deleteButton: {
+    color: '#ff6b65'
   }
 });
 

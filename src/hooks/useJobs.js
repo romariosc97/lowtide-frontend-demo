@@ -42,6 +42,9 @@ const useJobs = () => {
                     for (let ia = 0; ia < jobsTmp[i].job_details.templates.length; ia++) {
                         expanded_tmp[`panel${i}-${ia}`] = false;
                     }
+                }else{
+                    expanded_tmp[`panel-timeshift-${i}-df1`] = false;
+                    expanded_tmp[`panel-timeshift-${i}-df2`] = false;
                 }
             }
             setExpanded(expanded_tmp);

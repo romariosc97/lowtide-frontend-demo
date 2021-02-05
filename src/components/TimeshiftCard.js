@@ -72,7 +72,7 @@ const Card = ({
       }}
     >
       <AccordionSummary
-        // expandIcon={<ExpandMore className={classescard.arrow} />}
+        expandIcon={<ExpandMore className={classescard.arrow} />}
         id="card-header"
         className={clsx(classescard.header, {
           [classescard.selected]: type === 'available' && selected,

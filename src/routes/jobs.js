@@ -13,7 +13,7 @@ function Jobs() {
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const classes = useAccordionStyles();
   const {jobs, getSessionJobs, expanded, setExpanded, jobStatus} = useJobs();
-  const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter } = useContext(GlobalContext);
+  const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter, setJobUpdates, jobUpdates } = useContext(GlobalContext);
 
   const handleChange = (i) => {
     setExpanded({
@@ -31,6 +31,10 @@ function Jobs() {
         setActionJobCounter(actionJobCounter+1);
       }else{
         socket.emit("subscribeToJobUpdates");
+        socket.on("jobUpdate", data => {
+          console.log(data);
+          //setJobUpdates({...jobUpdates, [data.id]: data.message});
+        });
         socket.on("jobEnded", data => {
           if(data.template_keys){
             let deployingTmp = [];
@@ -61,11 +65,12 @@ function Jobs() {
     return () => { isMounted = true };
   }, [actionJobCounter]);
 
-  const pending = (
+  const pending = (id) => (
     <Fragment>
       <Box width='100%' display="flex" justifyContent="center" alignItems="center" flexDirection="column" minHeight="200px" textAlign="center">
         <span className={classes.pendingTitle}>This job is pending.</span>
         <LinearProgress className={classes.linearProgress} />
+        <span className={classes.status}>Status: {jobUpdates[id]}</span>
       </Box>
     </Fragment>
   );
@@ -94,7 +99,6 @@ function Jobs() {
                       {card.run_at}
                     </p>
                     <div className={classes.templates}>
-                      
                       {jobDetail[i] !== undefined ? ( jobDetail[i].result ? 
                       ( card.job_name === "Deploy Operation" ?
                       card.job_details.templates.map((template, ia) => (
@@ -108,7 +112,6 @@ function Jobs() {
                               >
                                 <p className={classes.heading}><b>{template}</b>{jobDetail[i].result[ia].status==='rejected' ?
                                 <ErrorOutline className={classes.errorOutline}/> : jobDetail[i].result[ia].value.status === 'Succeeded' ? <Check className={classes.headingCheck}/> : <Close className={classes.headingClose}/>}</p>
-                                {/*<Typography className={classes.secondaryHeading}>I am an accordion</Typography>*/}
                               </AccordionSummary>
                               <AccordionDetails>
                                 <div className={classes.accordionBody} key={ia}>
@@ -128,9 +131,44 @@ function Jobs() {
                             </Accordion>
                           </Fragment>
                       ))
-                      : (jobDetail[i].result.success===false ? <p><b>Error message: </b><br/>{jobDetail[i].result.message}</p> : "exito" ) ) 
-                      : pending ) : 
-                        pending
+                      : (
+                        jobDetail[i].result.success===false ? <p><b>Error message: </b><br/>{jobDetail[i].result.message}</p> 
+                        : 
+                          <Fragment>
+                            <Accordion className={classes.accordion} expanded={expanded[`panel-timeshift-${+i}-df1`]} onChange={() => handleChange(`panel-timeshift-${+i}-df1`)}>
+                              <AccordionSummary
+                                expandIcon={<ExpandMore />}
+                                aria-controls={`panel-timeshift-${+i}-df1bh-content`}
+                                id={`panel-timeshift-${+i}-df1bh-header`}
+                                className={classes.accordionSummary}
+                              >
+                                <p className={classes.heading}><b>{jobDetail[i].result.ongoingDataflow.tsLabel}</b></p>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <div className={classes.accordionBody}>
+                                  
+                                </div> 
+                              </AccordionDetails>
+                            </Accordion>
+                            <Accordion className={classes.accordion} expanded={expanded[`panel-timeshift-${+i}-df2`]} onChange={() => handleChange(`panel-timeshift-${+i}-df2`)}>
+                              <AccordionSummary
+                                expandIcon={<ExpandMore />}
+                                aria-controls={`panel-timeshift-${+i}-df2bh-content`}
+                                id={`panel-timeshift-${+i}-${jobDetail[i].id}bh-header`}
+                                className={classes.accordionSummary}
+                              >
+                                <p className={classes.heading}><b>{jobDetail[i].result.primerDataflow.tsLabel}</b></p>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                <div className={classes.accordionBody}>
+                                  
+                                </div> 
+                              </AccordionDetails>
+                            </Accordion>
+                          </Fragment>
+                        ) ) 
+                      : pending(jobDetail[i].id) ) : 
+                        pending(jobDetail[i].id)
                       }
                     </div>
                   </CardContent>
