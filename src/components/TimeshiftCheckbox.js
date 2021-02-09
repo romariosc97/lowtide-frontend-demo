@@ -44,7 +44,6 @@ const CustomCheckbox = ({ selected, parentId, id, children, developerName, name 
     }else if(isSelected===true && children===undefined){
       setSelected(false);
     }else if(selectedFolder.folderId===id && children!==undefined && selectedDatasets.length===0){
-      console.log('Hola')
       setSelected(false);
     }
     /*

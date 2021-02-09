@@ -44,7 +44,7 @@ function Jobs() {
               }
             }
             setDeploying(deployingTmp);
-            setJobsDeployed([...jobsDeployed, data.id]);
+            setJobsDeployed({...jobsDeployed, [data.id]: data.template_keys});
             
             let passTmp = false;
             let jobDetailTmp = jobDetail.map((row, i) => {

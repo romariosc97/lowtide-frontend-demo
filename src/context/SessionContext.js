@@ -80,7 +80,7 @@ const SessionContextProvider = (props) => {
           setJobDetail(resultDetail.data)
           setDeploying(jobs_tmp);
           setUsername(username);
-          setActionDeployCounter(actionDeployCounter+1);
+          //setActionDeployCounter(actionDeployCounter+1);
         } catch (error) {
           setIsLoggedIn(false);
         }

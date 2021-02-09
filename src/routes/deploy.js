@@ -13,9 +13,7 @@ import '../assets/pagesStyles.scss';
 import io from "socket.io-client";
 //import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
-
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
-//const SOCKET_URL = 'http://localhost:8080/';
+import { SOCKET_URL } from '../config/configuration';
 
 const useStyles = makeStyles({
   buttonLabel: {
@@ -45,33 +43,23 @@ const Deploy = () => {
   let [orgCards] = useDeployCards('org');
   const [selectedTemplates, _, deployStatus, handleCardSelection, deployCards] = useDeploy();
 
-  const { setDeploying, deploying, jobsDeployed, setJobsDeployed, actionDeployCounter } = useContext(GlobalContext);
-  
-  useEffect(() => {
-    let isMounted = false;
-    if(!isMounted){
-        socket.emit("subscribeToJobUpdates");
-        socket.on("jobEnded", data => {
-          console.log('hi locos')
-          if(data.template_keys){
-            let deployingTmp = [];
-            if(deploying.length>0){
-              console.log('Deployed')
-              for (let i = 0; i < deploying.length; i++) {
-                if(data.template_keys.indexOf(deploying[i])===-1){
-                  deployingTmp.push(deploying[i]);
-                }
-              }
-            }
-            setDeploying(deployingTmp);
-            setJobsDeployed([...jobsDeployed, data.id]);
-          }
-        });
-    }
-    return () => { isMounted = true };
-  }, [deploying]);
+  const { setDeploying, deploying, setTemplatesDeployed, templatesDeployed } = useContext(GlobalContext);
 
-  
+  useEffect(() => {
+    socket.emit("subscribeToJobUpdates");
+    socket.on("jobEnded", data => {
+      if(data.template_keys){
+        setTemplatesDeployed([...templatesDeployed, ...data.template_keys]);
+        let deployingTmp = [];
+        for (let i = 0; i < deploying.length; i++) {
+          if(data.template_keys.indexOf(deploying[i])===-1){
+            deployingTmp.push(deploying[i]);
+          }
+        }
+        setDeploying(deployingTmp);
+      }
+    });
+  }, []);
 
   return (
     <div className="fullPage">

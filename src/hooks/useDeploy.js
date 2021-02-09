@@ -24,7 +24,7 @@ const useDeploy = () => {
     // Write code to deploy the cards
     if (selectedTemplates.length === 0) return alert('Select at least 1 card');
     setDeployStatus(true);
-    setActionDeployCounter(actionDeployCounter+1);
+    setActionDeployCounter(actionDeployCounter+selectedTemplates.length);
     try {
       const deployAxios = axios.create({
         withCredentials: true,

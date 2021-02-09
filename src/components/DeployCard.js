@@ -25,8 +25,9 @@ const Card = ({
   handleCardSelection,
 }) => {  
   const { selectedTemplates } = useContext(FilterContext);
-  const { deploying } = useContext(GlobalContext);
+  const { deploying, templatesDeployed } = useContext(GlobalContext);
   const [selected, setSelected] = useState(selectedTemplates.indexOf(data.template_key)!==-1);
+  const [loading, setLoading] = useState();
   const classes = useCardStyles();
 
 
@@ -37,6 +38,7 @@ const Card = ({
       if (type === 'available'){
         handleCardSelection(data.template_key, selected);
         if(deploying.indexOf(data.template_key)!==-1 && selected){
+          setLoading(true);
           setSelected(false);
         }
         //console.log(selected, 'DeployCard', data)
@@ -44,6 +46,12 @@ const Card = ({
     }
     return () => { isMounted = true };
   }, [selected, deploying]);
+
+  useEffect(() => {
+    if(templatesDeployed.indexOf(data.template_key)!==-1){
+      setLoading(false);
+    }
+  }, [templatesDeployed]);
 
   const badgeOptions = warning && {
     background: type === 'available' ? '#27AE60' : '#C23934',
@@ -67,7 +75,7 @@ const Card = ({
         id="card-header"
         className={clsx(classes.header, {
           [classes.selected]: type === 'available' && selected,
-          [classes.warning]: (type === 'org' && warning) || deploying.indexOf(data.template_key)!==-1,
+          [classes.warning]: (type === 'org' && warning) || loading,
         })}
         classes={{
           root: classes.summaryRoot,
@@ -79,7 +87,7 @@ const Card = ({
           {type === 'available' ? (
             <Checkbox template_key={data.template_key} selected={selected} setParentSelected={setSelected} />
           ) : null}
-          <div className="summaryBody__title"><span>{data.name}</span>{(deploying.indexOf(data.template_key)!==-1 ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : '')}</div>
+          <div className="summaryBody__title"><span>{data.name}</span>{(loading ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : '')}</div>
         </div>
         <div className="card-header__rightArea">{warning ? badge : null}</div>
       </AccordionSummary>

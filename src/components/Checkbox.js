@@ -3,6 +3,8 @@ import { Checkbox } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { GlobalContext } from '../context/GlobalContext';
+import io from "socket.io-client";
+import { SOCKET_URL } from '../config/configuration';
 
 const useCheckboxStyles = makeStyles({
   root: {
@@ -32,23 +34,27 @@ const useCheckboxStyles = makeStyles({
     },
   },
 });
-
+const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 const CustomCheckbox = ({ selected, setParentSelected, template_key }) => {
+
   const classes = useCheckboxStyles();
-  const { deploying } = useContext(GlobalContext);
+  const { deploying, setDeploying, jobsDeployed, setJobsDeployed, templatesDeployed, setTemplatesDeployed, actionDeployCounter } = useContext(GlobalContext);
   const [isSelected, setSelected] = useState(selected);
   const [isDisabled, setDisabled] = useState(false);
   useEffect(() => {
-    if(deploying.indexOf(template_key)!==-1){
-      console.log(true, 'Checkbox', template_key);
+    if(deploying.indexOf(template_key)!==-1 && isDisabled==false){
       setSelected(false);
       setDisabled(true);
-    }/*else{
-      console.log(false, 'Checkbox', template_key);
+    }
+  }, [deploying]);
+  
+  useEffect(() => {
+    if(templatesDeployed.indexOf(template_key)!==-1){
       setSelected(false);
       setDisabled(false);
-    }*/
-  }, [deploying]);
+    }
+  }, [templatesDeployed]);
+
   return (
     <Checkbox
       checked={isSelected}
