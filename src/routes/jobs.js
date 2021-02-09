@@ -13,7 +13,7 @@ function Jobs() {
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const classes = useAccordionStyles();
   const {jobs, getSessionJobs, expanded, setExpanded, jobStatus} = useJobs();
-  const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter, setJobUpdates, jobUpdates } = useContext(GlobalContext);
+  const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter, setJobUpdates, jobUpdates, socketAux, setSocketAux } = useContext(GlobalContext);
 
   const handleChange = (i) => {
     setExpanded({
@@ -21,56 +21,47 @@ function Jobs() {
       [i]: expanded[i] ? false : true
     });
   };
-
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
       setJobsPending(false);
-      if(actionJobCounter===0){
-        getSessionJobs();
-        setActionJobCounter(actionJobCounter+1);
-      }else{
-        socket.emit("subscribeToJobUpdates");
-        socket.on("jobUpdate", data => {
-          console.log(data);
-          //setJobUpdates({...jobUpdates, [data.id]: data.message});
-        });
-        socket.on("jobEnded", data => {
-          if(data.template_keys){
-            let deployingTmp = [];
-            for (let i = 0; i < deploying.length; i++) {
-              if(data.template_keys.indexOf(deploying[i])===-1){
-                deployingTmp.push(deploying[i]);
-              }
-            }
-            setDeploying(deployingTmp);
-            setJobsDeployed({...jobsDeployed, [data.id]: data.template_keys});
-            
-            let passTmp = false;
-            let jobDetailTmp = jobDetail.map((row, i) => {
-              if(row.id === data.id){
-                row.result = data.result;
-                passTmp = true;
-              }
-              return row;
-            });
-            if(!passTmp){
-              jobDetailTmp.push({id: data.id, result: data.result});
-            }
-            setJobDetail(jobDetailTmp);
+      getSessionJobs();
+      socket.emit("subscribeToJobUpdates");
+      socket.on("jobUpdate", data => {
+        console.log(data);
+        //setJobUpdates({...jobUpdates, [data.id]: data.message});
+      });
+    }
+    return () => { isMounted = true };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = false;
+    if(!isMounted){
+      if(Object.keys(socketAux).length > 0){
+        let passTmp = false;
+        let jobDetailTmp = jobDetail.map((row, i) => {
+          if(row.id === socketAux.id){
+            row.result = socketAux.result;
+            passTmp = true;
           }
+          return row;
         });
+        if(!passTmp){
+          jobDetailTmp.push({id: socketAux.id, result: socketAux.result});
+        }
+        setJobDetail(jobDetailTmp);
       }
     }
     return () => { isMounted = true };
-  }, [actionJobCounter]);
+  }, [socketAux]);
 
   const pending = (id) => (
     <Fragment>
       <Box width='100%' display="flex" justifyContent="center" alignItems="center" flexDirection="column" minHeight="200px" textAlign="center">
         <span className={classes.pendingTitle}>This job is pending.</span>
         <LinearProgress className={classes.linearProgress} />
-        <span className={classes.status}>Status: {jobUpdates[id]}</span>
+        <span className={classes.status}>Status: {jobUpdates[id] || 'Loading'}</span>
       </Box>
     </Fragment>
   );
@@ -167,8 +158,8 @@ function Jobs() {
                             </Accordion>
                           </Fragment>
                         ) ) 
-                      : pending(jobDetail[i].id) ) : 
-                        pending(jobDetail[i].id)
+                      : pending(jobDetail[i] !== undefined ? jobDetail[i].id : 0) ) : 
+                        pending(jobDetail[i] !== undefined ? jobDetail[i].id : 0)
                       }
                     </div>
                   </CardContent>

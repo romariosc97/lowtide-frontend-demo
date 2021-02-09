@@ -17,7 +17,7 @@ const SessionContextProvider = (props) => {
   const [username, setUsername] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [loginAction, setLoginAction] = useState(0);
-  const { setDeploying, setJobDetail, setActionJobCounter, actionJobCounter, setActionDeployCounter, actionDeployCounter } = useContext(GlobalContext);
+  const { setDeploying, setJobDetail, setActionJobCounter, actionJobCounter, setActionDeployCounter, actionDeployCounter, setSocketAux } = useContext(GlobalContext);
 
   const getSessionInfo = async () => {
     const sessionAxios = axios.create({
@@ -35,13 +35,13 @@ const SessionContextProvider = (props) => {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      console.log(' session')
       const setNewUsername = async () => {
         socket.emit("subscribeToJobUpdates");
         socket.on("jobEnded", data => {
           console.log(data);
           if(data.template_keys){
-            setActionJobCounter(actionJobCounter+1);
+            //setActionJobCounter(actionJobCounter+1);
+            setSocketAux({id: data.id, result: data.result});
             if(data.template_keys.length===1){
               enqueueSnackbar(`Template "${data.template_keys[0]}" has been deployed successfully!`, 
                 {...SNACKBAR_DEFAULT, variant: 'success'}

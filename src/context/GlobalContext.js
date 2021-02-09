@@ -7,6 +7,7 @@ const GlobalContextProvider = (props) => {
   const [jobsPending, setJobsPending] = useState(false);
   const [deploying, setDeploying] = useState([]);
   const [templatesDeployed, setTemplatesDeployed] = useState([]);
+  const [socketAux, setSocketAux] = useState({});
   const [jobDetail, setJobDetail] = useState([]);
   const [jobsDeployed, setJobsDeployed] = useState({});
   const [actionJobCounter, setActionJobCounter] = useState(0);
@@ -52,7 +53,9 @@ const GlobalContextProvider = (props) => {
         jobUpdates,
         setJobUpdates,
         templatesDeployed,
-        setTemplatesDeployed
+        setTemplatesDeployed,
+        socketAux,
+        setSocketAux
       }}
     >
       {props.children}
