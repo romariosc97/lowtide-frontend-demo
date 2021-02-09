@@ -35,7 +35,7 @@ const useCheckboxStyles = makeStyles({
 
 const CustomCheckbox = ({ selected, parentId, id, children, developerName, name }) => {
   const classes = useCheckboxStyles();
-  const { timeshifting, selectedDatasets, setSelectedDatasets, datasets, setSelectedFolder, selectedFolder } = useContext(GlobalContext);
+  const { selectedDatasets, setSelectedDatasets, datasets, setSelectedFolder, selectedFolder } = useContext(GlobalContext);
   const [isSelected, setSelected] = useState(selected);
   const [isDisabled, setDisabled] = useState(true);
   useEffect(() => {
@@ -46,15 +46,6 @@ const CustomCheckbox = ({ selected, parentId, id, children, developerName, name 
     }else if(selectedFolder.folderId===id && children!==undefined && selectedDatasets.length===0){
       setSelected(false);
     }
-    /*
-    if(timeshifting.indexOf(id)!==-1){
-      setSelected(false);
-      setDisabled(true);
-    }else{
-      setSelected(false);
-      setDisabled(false);
-    }
-    */
   }, [selectedDatasets]);
   useEffect(() => {
     if(id in datasets || parentId in datasets){

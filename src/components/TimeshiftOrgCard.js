@@ -1,28 +1,23 @@
-import React, { useEffect, useState, useContext, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@material-ui/core/';
 import clsx from 'clsx';
-import { CircularProgress, Box, IconButton} from '@material-ui/core';
+import { IconButton} from '@material-ui/core';
 import { ExpandMore, Delete } from '@material-ui/icons';
-
-import Checkbox from './TimeshiftCheckbox';
-import Badge from './Badge';
 
 import './Card.scss';
 import useAccordionStyles from '../hooks/useAccordionStyles.js';
 import useCardStyles from '../hooks/useCardStyles.js';
 
-import { GlobalContext } from '../context/GlobalContext';
-import useTimeshift from '../hooks/useTimeshift';
+import useTimeshiftOrgCard from '../hooks/useTimeshiftOrgCard';
 
 const Card = ({
-  type,
   data,
 }) => {  
-  const {  } = useContext(GlobalContext);
+  const { deleteOrgDataset } = useTimeshiftOrgCard();
   const classescard = useCardStyles();
   const classesaccordion = useAccordionStyles();
 
@@ -35,18 +30,6 @@ const Card = ({
     }
     return () => { isMounted = true };
   }, []);
-
-  const deleteOrgDataset = () => {
-    console.log('Dataset deleted from your ORG.');
-  };
-
-  const badgeOptions = {
-    background: '#27AE60',
-    text: 'New version',
-    color: 'white',
-  };
-
-  const badge = <Badge {...badgeOptions} />;
 
   return (
     <Accordion

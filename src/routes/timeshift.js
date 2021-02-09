@@ -39,7 +39,7 @@ function Timeshift() {
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
   const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
-  const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
+  const {getFolders, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
   const classes = useStyles();
 
   useEffect(() => {
@@ -48,12 +48,6 @@ function Timeshift() {
       getFolders();
       getOrgFolders();
       socket.emit("subscribeToJobUpdates");
-      socket.on("jobUpdate", data => {
-        console.log(data);
-      });
-      socket.on("timeshiftUpdate", data => {
-        console.log(data);
-      });
       socket.on("jobEnded", data => {
         if(data.result.success){
 
@@ -84,9 +78,6 @@ function Timeshift() {
             {folders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : folders.map((card, i) => (
               <Card
                 key={i}
-                type={'available'}
-                startExpanded={i === 0}
-                warning={i === 6}
                 data={{
                   id: card.Id,
                   name: card.Name,
@@ -94,8 +85,6 @@ function Timeshift() {
                   developer: card.DeveloperName,
                   index: i
                 }}
-                handleCardSelection={handleCardSelection}
-                handleCardCollapse={handleCardCollapse}
               />
             ))}
           </CardContainer>

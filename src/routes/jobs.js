@@ -4,16 +4,14 @@ import { Card, CardContent, CardActions, Accordion, AccordionDetails, AccordionS
 import { ExpandMore, Check, Close, BusinessCenter, ErrorOutline } from '@material-ui/icons';
 import useAccordionStyles from '../hooks/useAccordionStyles.js';
 import useJobs from '../hooks/useJobs';
-import io from "socket.io-client";
+
 import { GlobalContext } from '../context/GlobalContext';
-import { SOCKET_URL } from '../config/configuration';
 
 function Jobs() {
 
-  const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
   const classes = useAccordionStyles();
   const {jobs, getSessionJobs, expanded, setExpanded, jobStatus} = useJobs();
-  const { setJobsPending, jobDetail, setJobDetail, setDeploying, setJobsDeployed, deploying, jobsDeployed, actionJobCounter, setActionJobCounter, setJobUpdates, jobUpdates, socketAux, setSocketAux } = useContext(GlobalContext);
+  const { setJobsPending, jobDetail, setJobDetail, jobUpdates, socketAux } = useContext(GlobalContext);
 
   const handleChange = (i) => {
     setExpanded({
@@ -26,11 +24,6 @@ function Jobs() {
     if(!isMounted){
       setJobsPending(false);
       getSessionJobs();
-      socket.emit("subscribeToJobUpdates");
-      socket.on("jobUpdate", data => {
-        console.log(data);
-        //setJobUpdates({...jobUpdates, [data.id]: data.message});
-      });
     }
     return () => { isMounted = true };
   }, []);
@@ -61,7 +54,7 @@ function Jobs() {
       <Box width='100%' display="flex" justifyContent="center" alignItems="center" flexDirection="column" minHeight="200px" textAlign="center">
         <span className={classes.pendingTitle}>This job is pending.</span>
         <LinearProgress className={classes.linearProgress} />
-        <span className={classes.status}>Status: {jobUpdates[id] || 'Loading'}</span>
+        <span className={classes.status}><b>Status:</b> {jobUpdates[id] || 'Loading'}</span>
       </Box>
     </Fragment>
   );
@@ -158,8 +151,8 @@ function Jobs() {
                             </Accordion>
                           </Fragment>
                         ) ) 
-                      : pending(jobDetail[i] !== undefined ? jobDetail[i].id : 0) ) : 
-                        pending(jobDetail[i] !== undefined ? jobDetail[i].id : 0)
+                      : pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.job_id) ) : 
+                        pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.job_id)
                       }
                     </div>
                   </CardContent>

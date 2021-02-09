@@ -1,14 +1,12 @@
 import { useState, useContext } from 'react';
 import axios from 'axios';
-//import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
 import { API_URL } from '../config/configuration';
 
 const useDeploy = () => {
   const [selectedTemplates, setSelectedTemplates] = useState([]);
   const [deployStatus, setDeployStatus] = useState(false);
-  //const { setDeploying } = useContext(FilterContext);
-  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter, setJobUpdates } = useContext(GlobalContext);
+  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter, jobUpdates, setJobUpdates } = useContext(GlobalContext);
 
   const handleCardSelection = (key, selected) => {
     if (selected) {
@@ -21,7 +19,6 @@ const useDeploy = () => {
   };
 
   const deployCards = async () => {
-    // Write code to deploy the cards
     if (selectedTemplates.length === 0) return alert('Select at least 1 card');
     setDeployStatus(true);
     setActionDeployCounter(actionDeployCounter+selectedTemplates.length);
@@ -41,8 +38,7 @@ const useDeploy = () => {
 
       setDeployStatus(false);
       setJobsPending(true);
-      //console.log(result.data);
-      //setJobUpdates({...jobUpdates, [result.data.job_id]: "Job started."});
+      setJobUpdates({...jobUpdates, [result.data.job_id]: "Deploying."});
     } catch (error) {
       setDeployStatus(false);
       console.log(error.message);
@@ -50,7 +46,7 @@ const useDeploy = () => {
     }
   };
 
-  return [selectedTemplates, setSelectedTemplates, deployStatus, handleCardSelection, deployCards];
+  return {selectedTemplates, setSelectedTemplates, deployStatus, handleCardSelection, deployCards};
 };
 
 export default useDeploy;
