@@ -9,7 +9,6 @@ import { CircularProgress, Box } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 
 import Checkbox from './TimeshiftCheckbox';
-import Badge from './Badge';
 
 import './Card.scss';
 import useAccordionStyles from '../hooks/useAccordionStyles.js';
@@ -19,9 +18,6 @@ import { GlobalContext } from '../context/GlobalContext';
 import useTimeshift from '../hooks/useTimeshift';
 
 const Card = ({
-  type,
-  startExpanded,
-  warning,
   data,
   handleCardSelection,
   handleCardCollapse
@@ -29,19 +25,17 @@ const Card = ({
   const { timeshifting, selectedDatasets, datasets } = useContext(GlobalContext);
   const {expanded, setExpanded} = useTimeshift();
   const [selected, setSelected] = useState(false);
+  const [loading/*, setLoading*/] = useState(false);
   const classescard = useCardStyles();
   const classesaccordion = useAccordionStyles();
 
-
-  // Add card to selected cards array.
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      if (type === 'available'){
-        handleCardSelection(data.id, selected);
-        if(timeshifting.indexOf(data.id)!==-1 && selected){
-          setSelected(false);
-        }
+      handleCardSelection(data.id, selected);
+      if(timeshifting.indexOf(data.id)!==-1 && selected){
+        setSelected(false);
+        //setLoading(true);
       }
     }
     return () => { isMounted = true };
@@ -54,17 +48,8 @@ const Card = ({
     });
   };
 
-  const badgeOptions = warning && {
-    background: type === 'available' ? '#27AE60' : '#C23934',
-    text: type === 'available' ? 'New version' : 'Old version',
-    color: 'white',
-  };
-
-  const badge = warning && <Badge {...badgeOptions} />;
-
   return (
     <Accordion
-      //defaultExpanded={startExpanded}
       TransitionProps={{ unmountOnExit: true }}
       classes={{
         root: classescard.root,
@@ -75,8 +60,8 @@ const Card = ({
         expandIcon={<ExpandMore className={classescard.arrow} />}
         id="card-header"
         className={clsx(classescard.header, {
-          [classescard.selected]: type === 'available' && selected,
-          [classescard.warning]: (type === 'org' && warning),
+          [classescard.selected]: selected,
+          [classescard.warning]: loading,
         })}
         classes={{
           root: classescard.summaryRoot,
@@ -86,12 +71,10 @@ const Card = ({
         onClick={() => {handleCardCollapse(data.id)}}
       >
         <div className="card-header__leftArea">
-          {type === 'available' ? (
-            <Checkbox id={data.id} selected={selected} children={datasets[data.id]} developerName={data.developer} name={data.name}/>
-          ) : null}
+          <Checkbox id={data.id} selected={selected} children={datasets[data.id]} developerName={data.developer} name={data.name}/>
           <div className="summaryBody__title"><span>{data.name}</span>{(timeshifting.indexOf(data.id)!==-1 ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : '')}</div>
         </div>
-        <div className="card-header__rightArea">{warning ? badge : null}</div>
+        <div className="card-header__rightArea"></div>
       </AccordionSummary>
 
       <AccordionDetails
@@ -105,7 +88,7 @@ const Card = ({
               <strong className="blue">Developer Name:</strong> {data.developer}
             </div>
             <div className="cardContent__version">
-              <strong className="blue">Type:</strong> {/*data.type*/'Folder'}
+              <strong className="blue">Type:</strong> {'Folder'}
             </div>
           </div>
           <div className="cardContent__description">

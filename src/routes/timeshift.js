@@ -39,7 +39,7 @@ function Timeshift() {
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
   const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
-  const {getFolders, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
+  const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
   const classes = useStyles();
 
   useEffect(() => {
@@ -85,6 +85,8 @@ function Timeshift() {
                   developer: card.DeveloperName,
                   index: i
                 }}
+                handleCardSelection={handleCardSelection}
+                handleCardCollapse={handleCardCollapse}
               />
             ))}
           </CardContainer>
@@ -109,7 +111,6 @@ function Timeshift() {
             {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgFolders.map((card, i) => (
               <OrgCard
                 key={i}
-                type={'available'}
                 data={{
                   id: card.Id,
                   name: card.MasterLabel,
