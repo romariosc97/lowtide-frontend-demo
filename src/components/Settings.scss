@@ -1,0 +1,19 @@
+@import "../assets/variables";
+.settings {
+    &__title{
+        padding: 1rem;
+        font-weight: 700;
+        font-size: 1.75rem;
+    }
+    &__content{
+        padding: 0rem 1rem;
+        &__subtitle{
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        &__name{
+            margin: 8px 0px;
+            font-weight: 500;
+        }
+    }
+}

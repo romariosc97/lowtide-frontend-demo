@@ -79,8 +79,11 @@ const useAccordionStyles = makeStyles({
   status: {
     marginTop: '20px'
   },
-  deleteButton: {
+  deleteIconButton: {
     color: '#ff6b65'
+  },
+  deleteButton: {
+    
   }
 });
 

@@ -3,6 +3,8 @@ import React, { useState, createContext } from 'react';
 const GlobalContext = createContext();
 
 const GlobalContextProvider = (props) => {
+  const [branch, setBranch] = useState('beta');
+  const [branchTemplates, setBranchTemplates] = useState([]);
 
   const [jobsPending, setJobsPending] = useState(false);
   const [deploying, setDeploying] = useState([]);
@@ -26,6 +28,8 @@ const GlobalContextProvider = (props) => {
   return (
     <GlobalContext.Provider
       value={{
+        branch,
+        setBranch,
         jobsPending,
         setJobsPending,
         deploying, 
@@ -55,7 +59,9 @@ const GlobalContextProvider = (props) => {
         templatesDeployed,
         setTemplatesDeployed,
         socketAux,
-        setSocketAux
+        setSocketAux,
+        branchTemplates,
+        setBranchTemplates
       }}
     >
       {props.children}

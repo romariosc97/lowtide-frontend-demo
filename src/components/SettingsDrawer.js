@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { Radio } from '@material-ui/core';
+import { GlobalContext } from '../context/GlobalContext';
+import './Settings.scss';
+import useDeployCards from '../hooks/useDeployCards';
 
 const useStyles = makeStyles({
   list: {
@@ -28,6 +32,7 @@ const useStyles = makeStyles({
 });
 
 const SettingsDrawer = ({ position }) => {
+  const { setBranch, branch, setBranchTemplates } = useContext(GlobalContext);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -43,16 +48,44 @@ const SettingsDrawer = ({ position }) => {
     setOpen(open);
   };
 
+  const handleChange = (event) => {
+    setBranchTemplates([]);
+    setBranch(event.target.value);
+  };
+
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+        ["settings"]: true
       })}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      Placeholder
+      <div className="settings__title">Settings</div>
+      <div className="settings__content">
+        <div className="settings__content__subtitle">Deploy</div>
+        <div className="settings__content__name">Select your branch:</div>
+        <Radio
+          checked={branch === 'beta'}
+          onChange={handleChange}
+          value="beta"
+          name="branch"
+          color="primary"
+          inputProps={{ 'aria-label': 'Beta' }}
+        /> Beta
+        <br/>
+        <Radio
+          checked={branch === 'master'}
+          onChange={handleChange}
+          value="master"
+          name="branch"
+          color="primary"
+          inputProps={{ 'aria-label': 'Master' }}
+        /> Master
+        <br/>
+      </div>
     </div>
   );
 

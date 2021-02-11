@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import { Button, CircularProgress, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -9,6 +9,7 @@ import useDeployCards from '../hooks/useDeployCards';
 import useDeploy from '../hooks/useDeploy';
 
 import '../assets/pagesStyles.scss';
+import { GlobalContext } from '../context/GlobalContext';
 
 const useStyles = makeStyles({
   buttonLabel: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles({
 const Deploy = () => {
 
   const classes = useStyles();
+  const { branchTemplates } = useContext(GlobalContext);
   let [availableCards] = useDeployCards('available');
   let [orgCards] = useDeployCards('org');
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
@@ -59,7 +61,7 @@ const Deploy = () => {
             title="Available Templates"
             searchPlaceholder="Search Templates"
           >
-            {availableCards.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : availableCards.map((card, i) => (
+            {branchTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : branchTemplates.map((card, i) => (
               <Card
                 key={i}
                 type={'available'}

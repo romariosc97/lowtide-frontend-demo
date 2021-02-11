@@ -6,7 +6,7 @@ import { API_URL } from '../config/configuration';
 const useDeploy = () => {
   const [selectedTemplates, setSelectedTemplates] = useState([]);
   const [deployStatus, setDeployStatus] = useState(false);
-  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter, jobUpdates, setJobUpdates } = useContext(GlobalContext);
+  const { setJobsPending, setDeploying, deploying, actionDeployCounter, setActionDeployCounter, jobUpdates, setJobUpdates, branch } = useContext(GlobalContext);
 
   const handleCardSelection = (key, selected) => {
     if (selected) {
@@ -32,7 +32,7 @@ const useDeploy = () => {
       setSelectedTemplates([]);
       setDeploying([...deploying, ...tmp]);
 
-      const result = await deployAxios.post(`${API_URL}/repository/template/beta/deploy`, {
+      const result = await deployAxios.post(`${API_URL}/repository/template/${branch}/deploy`, {
         "templates": selectedTemplates
       });
 

@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
-//import { repoTemplatesResponse, orgTemplatesResponse } from '../mockData';
 import { FilterContext } from '../context/FilterContext';
 import axios from 'axios';
 import io from "socket.io-client";
 import { SOCKET_URL, API_URL } from '../config/configuration';
+import { GlobalContext } from '../context/GlobalContext';
 
 const useDeployCards = (type) => {
   const [cards, setCards] = useState([]);
+  const { branch, setBranchTemplates } = useContext(GlobalContext);
 
   const {
     setAllRepoTags,
@@ -22,7 +23,7 @@ const useDeployCards = (type) => {
       withCredentials: true,
     });
     if(type === 'available'){
-      return templateAxios.get(`${API_URL}/repository/template/beta`);
+      return templateAxios.get(`${API_URL}/repository/template/${branch}`);
     }else{
       return templateAxios.get(`${API_URL}/org/template`);
     }
@@ -30,9 +31,11 @@ const useDeployCards = (type) => {
 
   useEffect(() => {
     const setNewCardsAndTags = async () => {
-      const result = await getCards(type);
-      const cards = result.data;
-      setCards(cards);
+      if(type=="org"){
+        const result = await getCards(type);
+        const cards = result.data;
+        setCards(cards);
+      }
 
       let allTags = [];
       cards.forEach((card) => {
@@ -54,7 +57,19 @@ const useDeployCards = (type) => {
         setNewCardsAndTags();
       }
     });
+
   }, [setAllRepoTags, type, setAllOrgTags]);
+
+  useEffect(() => {
+    if(type=="available"){
+      const branchUpdated = async () => {
+        const result = await getCards("available");
+        const cards = result.data;
+        setBranchTemplates(cards);
+      };
+      branchUpdated();
+    }
+  }, [branch]);
 
   const cardsToRender = () => {
     const selectedTags =

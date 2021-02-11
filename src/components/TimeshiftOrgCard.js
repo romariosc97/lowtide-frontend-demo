@@ -5,7 +5,7 @@ import {
   AccordionDetails,
 } from '@material-ui/core/';
 import clsx from 'clsx';
-import { IconButton} from '@material-ui/core';
+import { Button} from '@material-ui/core';
 import { ExpandMore, Delete } from '@material-ui/icons';
 
 import './Card.scss';
@@ -57,9 +57,11 @@ const Card = ({
           {data.name}
         </div>
         <div className="card-header__rightArea">
-          <IconButton className={classesaccordion.deleteButton} aria-label="Delete" onClick={deleteOrgDataset}>
+
+          {/* <IconButton className={classesaccordion.deleteIconButton} aria-label="Delete" onClick={deleteOrgDataset}>
             <Delete />
-          </IconButton>
+          </IconButton> */}
+
         </div>
       </AccordionSummary>
 
@@ -68,12 +70,17 @@ const Card = ({
           root: classescard.detailsRoot,
         }}
       >
-        <div className="cardContent">              
+        <div className="cardContent">
           <div className="cardContent__description">
             <p><strong className="blue">Developer Name:</strong> {data.developer}</p>
             <p><strong className="blue">Type:</strong> {data.type}</p>
             <p><strong className="blue">Data Flow Type:</strong> {`${data.dataFlowType}`}</p>
             <p><strong className="blue">Created Date:</strong> {data.createdDate}</p>
+          </div>
+          <div className="cardContent__actions">
+            <Button className={classesaccordion.deleteButton} variant="contained" color="secondary" onClick={deleteOrgDataset}>
+              <Delete /> Delete
+            </Button>
           </div>
         </div>
       </AccordionDetails>
