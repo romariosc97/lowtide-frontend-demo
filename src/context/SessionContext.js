@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect, useContext } from 'react';
-//import { sessionInfoResponse } from '../mockData';
 import axios from 'axios';
 import { GlobalContext } from './GlobalContext';
 import { useSnackbar } from 'notistack';
@@ -14,7 +13,7 @@ const SessionContextProvider = (props) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [sessionInfo, setSessionInfo] = useState({});
   const [jobs, setJobs] = useState([]);
   const [loginAction, setLoginAction] = useState(0);
   const { setDeploying, setJobDetail, setSocketAux, jobUpdates, setJobUpdates, deploying, setTemplatesDeployed, templatesDeployed } = useContext(GlobalContext);
@@ -89,6 +88,7 @@ const SessionContextProvider = (props) => {
           setIsLoggedIn(true);
           const sessionInfo = result.data;
           const username = sessionInfo.salesforce.user.name;
+          const instanceUrl = sessionInfo.salesforce.auth.instanceUrl;
           let jobs_tmp = [];
           for (let i = 0; i < result.data.jobs.length; i++) {
             if(resultDetail.data[i].result){
@@ -99,7 +99,7 @@ const SessionContextProvider = (props) => {
           }
           setJobDetail(resultDetail.data)
           setDeploying(jobs_tmp);
-          setUsername(username);
+          setSessionInfo({username: username, instanceUrl: instanceUrl});
         } catch (error) {
           setIsLoggedIn(false);
         }
@@ -111,7 +111,7 @@ const SessionContextProvider = (props) => {
 
   return (
     <SessionContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, username, setUsername, jobs, setJobs, setLoginAction, loginAction }}
+      value={{ isLoggedIn, setIsLoggedIn, sessionInfo, setSessionInfo, jobs, setJobs, setLoginAction, loginAction }}
     >
       {props.children}
     </SessionContext.Provider>

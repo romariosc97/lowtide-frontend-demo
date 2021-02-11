@@ -6,9 +6,9 @@ import {
 } from '@material-ui/core/';
 import clsx from 'clsx';
 import { CircularProgress } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 
 import Checkbox from './Checkbox';
-import Badge from './Badge';
 import Tag from './Tag';
 
 import './Card.scss';
@@ -53,14 +53,6 @@ const Card = ({
     }
   }, [templatesDeployed]);
 
-  const badgeOptions = warning && {
-    background: type === 'available' ? '#27AE60' : '#C23934',
-    text: type === 'available' ? 'New version' : 'Old version',
-    color: 'white',
-  };
-
-  const badge = warning && <Badge {...badgeOptions} />;
-
   return (
     <Accordion
       defaultExpanded={startExpanded}
@@ -71,7 +63,7 @@ const Card = ({
       }}
     >
       <AccordionSummary
-        // expandIcon={<ExpandMore className={classes.arrow} />}
+        expandIcon={<ExpandMore className={classes.arrow} />}
         id="card-header"
         className={clsx(classes.header, {
           [classes.selected]: type === 'available' && selected,
@@ -89,7 +81,7 @@ const Card = ({
           ) : null}
           <div className="summaryBody__title"><span>{data.name}</span>{(loading ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : '')}</div>
         </div>
-        <div className="card-header__rightArea">{warning ? badge : null}</div>
+        <div className="card-header__rightArea"></div>
       </AccordionSummary>
 
       <AccordionDetails

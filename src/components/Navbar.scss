@@ -37,6 +37,12 @@
         }
     }
 
+    .navBar__link {
+        transition: all 0.4s;
+    }
+    .navBar__link:hover {
+        color: $main-blue;
+    }
     &__status {
         display: flex;
         justify-content: space-between;

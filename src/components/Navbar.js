@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 const Navbar = ({ activeTab }) => {
-  const { username } = useContext(SessionContext);
+  const { sessionInfo } = useContext(SessionContext);
   const { jobsPending, setActionJobCounter } = useContext(GlobalContext);
   const {
     logout,
@@ -69,7 +69,7 @@ const Navbar = ({ activeTab }) => {
       </div>
 
       <div className="navBar__status">
-        <div className="navBar__user">Logged in as {username}</div>
+        <div className="navBar__user">Logged in as <a className="navBar__link" href={sessionInfo.instanceUrl} target="_blank" rel="noopener noreferrer">{sessionInfo.username}</a></div>
         <button disabled={logoutStatus} type="button" onClick={logout} className={"unstyled-button navBar__logout" + (logoutStatus===true ? ' active' : '')}>Logout</button>
         <SettingsDrawer position="right" />
       </div>
