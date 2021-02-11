@@ -102,7 +102,7 @@ const Deploy = () => {
                 key={i}
                 type={'org'}
                 startExpanded={i === 0}
-                warning={i === 6}
+                //warning={i === 6}
                 data={{
                   name: card.template.label,
                   description: card.template.description,
