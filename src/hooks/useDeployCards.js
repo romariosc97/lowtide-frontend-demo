@@ -5,19 +5,15 @@ import io from "socket.io-client";
 import { SOCKET_URL, API_URL } from '../config/configuration';
 import { GlobalContext } from '../context/GlobalContext';
 
-const useDeployCards = (type) => {
-  const [cards, setCards] = useState([]);
+const useDeployCards = () => {
+  const [orgSearchText, setOrgSearchText] = useState([]);
   const { branch, setBranchTemplates, setOrgTemplates } = useContext(GlobalContext);
-
+  /*
   const {
-    setAllRepoTags,
-    setAllOrgTags,
-    selectedRepoTags,
-    selectedOrgTags,
     repoSearchText,
     orgSearchText,
   } = useContext(FilterContext);
-
+  */
   const templateAxios = axios.create({
     withCredentials: true,
   });
