@@ -34,13 +34,16 @@ const useStyles = makeStyles({
 const Deploy = () => {
 
   const classes = useStyles();
-  const { branchTemplates } = useContext(GlobalContext);
-  let [availableCards] = useDeployCards('available');
-  let [orgCards] = useDeployCards('org');
+  const { branch, branchTemplates, orgTemplates } = useContext(GlobalContext);
+  let {getBranchTemplates, getOrgTemplates} = useDeployCards();
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
 
   useEffect(() => {
-    
+    getBranchTemplates();
+  }, [branch]);
+
+  useEffect(() => {
+    getOrgTemplates();
   }, []);
 
   return (
@@ -97,7 +100,7 @@ const Deploy = () => {
             title="Your Org"
             searchPlaceholder="Search Templates"
           >
-            {orgCards.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgCards.map((card, i) => (
+            {orgTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgTemplates.map((card, i) => (
               <Card
                 key={i}
                 type={'org'}
