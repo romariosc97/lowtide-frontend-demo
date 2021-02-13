@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   chipLabel: {
     color: 'white',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: 'x-small',
     marginRight: '1px',
   },

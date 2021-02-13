@@ -11,13 +11,13 @@ const useCardStyles = makeStyles({
   },
   expanded: {},
   header: {
-    backgroundColor: '#737373',
+    backgroundColor: '#3F81F3',
     color: '#F6F6F6',
-    fontWeight: 700,
+    fontWeight: 400,
     alignItems: 'center',
   },
   selected: {
-    backgroundColor: '#005FB2',
+    backgroundColor: '#203988',
   },
   warning: {
     backgroundColor: '#FFB75D',

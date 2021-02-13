@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@material-ui/core/';
 import clsx from 'clsx';
-import { CircularProgress } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { CircularProgress, Box } from '@material-ui/core';
+import { ExpandMore, Equalizer, ViewQuilt } from '@material-ui/icons';
 
 import Checkbox from './Checkbox';
 import Tag from './Tag';
@@ -90,25 +90,62 @@ const Card = ({
         }}
       >
         <div className="cardContent">
-          <div className="cardContent__heading">
-            <div className="cardContent__author">
-              <strong className="blue">Author:</strong> EAPMM
+          <div className="cardContent__body">
+            <div  className="cardContent__body__subtitle">
+              Description
             </div>
-            <div className="cardContent__version">
-              <strong className="blue">Version:</strong> 2020.32
+            <div  className="cardContent__body__content">
+              {data.description || 'No description provided.'}
             </div>
+            <div  className="cardContent__body__subtitle">
+              Dashboards
+            </div>
+            <div  className="cardContent__body__content">
+              <Box flexWrap="wrap" display="flex">
+                {
+                  data.dashboards.map((value) => (
+                    <Box display="flex" alignItems="center">
+                      <Equalizer></Equalizer> {value}
+                    </Box>
+                  ))
+                }
+              </Box>
+            </div>
+            <div  className="cardContent__body__subtitle">
+              Datasets
+            </div>
+            <div  className="cardContent__body__content">
+              <Box flexWrap="wrap" display="flex">
+                {
+                  data.datasets.map((value) => (
+                    <Box display="flex" alignItems="center">
+                      <ViewQuilt></ViewQuilt> {value}
+                    </Box>
+                  ))
+                }
+              </Box>
+            </div>
+            {
+              data.tags ? data.tags.length > 0 ? 
+              <Fragment>
+                <div  className="cardContent__body__subtitle">
+                  Tags
+                </div>
+                {
+                  (
+                    <div className="cardContent__tags">
+                      {data.tags &&
+                        data.tags.map((tag) => (
+                          <Tag key={`key-${tag}`} label={tag} selected />
+                        ))}
+                    </div>
+                  )
+                } 
+              </Fragment>
+              : ''
+              : ''
+            }
           </div>
-          <div className="cardContent__description">
-            {data.description || 'No description provided.'}
-          </div>
-          {data.tags && (
-            <div className="cardContent__tags">
-              {data.tags &&
-                data.tags.map((tag) => (
-                  <Tag key={`key-${tag}`} label={tag} selected />
-                ))}
-            </div>
-          )}
         </div>
       </AccordionDetails>
     </Accordion>

@@ -6,7 +6,7 @@ import { FilterContext } from '../context/FilterContext';
 const useFiltersStyles = makeStyles((theme) => ({
   buttonLabel: {
     textTransform: 'none',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: '.8rem',
   },
   openButtonRootFiltersOn: {
@@ -56,7 +56,7 @@ const useFiltersStyles = makeStyles((theme) => ({
   },
   clearButtonLabel: {
     textTransform: 'none',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: '.5rem',
   },
   hidden: {

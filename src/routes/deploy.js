@@ -13,7 +13,7 @@ import { GlobalContext } from '../context/GlobalContext';
 
 const useStyles = makeStyles({
   buttonLabel: {
-    fontFamily: 'Montserrat',
+    fontFamily: `'Open Sans'`,
     fontSize: '1rem',
     fontWeight: '700',
   },
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     backgroundColor: '#005FB2',
     '&:hover, &:focus': {
       backgroundColor: '#016dcc',
-    },
+    }
   },
   disabledRoot: {
     backgroundColor: '#F6F6F6',
@@ -75,6 +75,8 @@ const Deploy = () => {
                   description: card.template.description,
                   tags: card.template.tags,
                   template_key: card.template.template_key,
+                  dashboards: card.template.dashboards,
+                  datasets: card.template.datasets,
                 }}
                 handleCardSelection={handleCardSelection}
               />
@@ -110,6 +112,8 @@ const Deploy = () => {
                   name: card.template.label,
                   description: card.template.description,
                   tags: card.template.tags,
+                  dashboards: card.template.dashboards,
+                  datasets: card.template.datasets,
                 }}
               />
             ))}

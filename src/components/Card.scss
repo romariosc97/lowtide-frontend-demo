@@ -27,10 +27,24 @@
     }
 
     &__tags {
-        margin-top: 10px
+        margin-top: 0px
     }
     p{
         margin-bottom: 8px;
+    }
+    &__body {
+        &__subtitle {
+            font-weight: 700;
+        }
+        &__content {
+            margin-bottom: 16px;
+            svg{
+                margin-right: 4px;
+            }
+        }
+        &__content:last-child {
+            margin-bottom: 0px;
+        }
     }
 }
 

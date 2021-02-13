@@ -19,7 +19,7 @@ const useCheckboxStyles = makeStyles({
     },
   },
   markedCheckbox: {
-    backgroundColor: '#27AE60',
+    backgroundColor: '#808080',
     '&:before': {
       display: 'block',
       width: 20,

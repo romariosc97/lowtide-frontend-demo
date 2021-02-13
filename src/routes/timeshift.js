@@ -16,7 +16,7 @@ import { SOCKET_URL } from '../config/configuration';
 
 const useStyles = makeStyles({
   buttonLabel: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: '1rem',
     fontWeight: '700',
   },

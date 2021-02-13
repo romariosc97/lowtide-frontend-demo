@@ -1,14 +1,14 @@
 @import './variables.scss';
 
-// Montserrat font
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+// Open Sans font
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 * {
   margin: 0;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans';
 }
 
 a {

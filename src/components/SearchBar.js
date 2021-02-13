@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     marginBottom: '0.5rem',
   },
   input: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: '.8rem',
     flex: 1,
   },
