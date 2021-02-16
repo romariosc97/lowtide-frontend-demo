@@ -39,6 +39,7 @@ const Deploy = () => {
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
 
   useEffect(() => {
+    document.title = 'Lowtide | Deploy';
     getBranchTemplates();
   }, [branch]);
 
@@ -68,8 +69,8 @@ const Deploy = () => {
               <Card
                 key={i}
                 type={'available'}
-                startExpanded={i === 0}
-                warning={i === 6}
+                //startExpanded={i === 0}
+                //warning={i === 6}
                 data={{
                   name: card.template.label,
                   description: card.template.description,
@@ -106,7 +107,7 @@ const Deploy = () => {
               <Card
                 key={i}
                 type={'org'}
-                startExpanded={i === 0}
+                //startExpanded={i === 0}
                 //warning={i === 6}
                 data={{
                   name: card.template.label,

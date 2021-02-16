@@ -22,6 +22,7 @@ function Jobs() {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
+      document.title = 'Lowtide | Jobs';
       setJobsPending(false);
       getSessionJobs();
     }

@@ -20,8 +20,8 @@ const useCardStyles = makeStyles({
     backgroundColor: '#203988',
   },
   warning: {
-    backgroundColor: '#FFB75D',
-    color: '#4f4f4f',
+    backgroundColor: '#203988',
+    //color: '#4f4f4f',
   },
   summaryRoot: {
     height: '3.5rem',
@@ -41,7 +41,11 @@ const useCardStyles = makeStyles({
   detailsRoot: {
     padding: 16,
     fontSize: '.8rem',
+    background: '#F2F2F2'
   },
+  loadingCard: {
+    opacity: 0.6
+  }
 });
 
 export default useCardStyles;

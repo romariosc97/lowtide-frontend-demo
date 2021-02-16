@@ -45,6 +45,7 @@ function Timeshift() {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
+      document.title = 'Lowtide | Timeshift';
       getFolders();
       getOrgFolders();
       socket.emit("subscribeToJobUpdates");
@@ -74,6 +75,7 @@ function Timeshift() {
         <div className="page-mainContainer">
           <CardContainer
             styles={{ width: '30vw', height: '65vh' }}
+            title="Analytics Apps"
           >
             {folders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : folders.map((card, i) => (
               <Card
@@ -106,6 +108,7 @@ function Timeshift() {
 
           <CardContainer
             styles={{ width: '30vw', height: '65vh' }}
+            title="Timeshifting Dataflows"
 
           >
             {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgFolders.map((card, i) => (

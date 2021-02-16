@@ -38,8 +38,8 @@ const Navbar = ({ activeTab }) => {
   return (
     <nav className="navBar">
       <div className="navBar__iconTitle">
-        <img className="navBar__icon" src={ddtIcon} alt="Demo Data Tool Icon" />
-        <div className="navBar__title">Demo Data Tools</div>
+        <img className="navBar__icon" src={ddtIcon} alt="Lowtide Icon" />
+        <div className="navBar__title">Lowtide</div>
       </div>
 
       <div className="navBar__links">
@@ -69,7 +69,9 @@ const Navbar = ({ activeTab }) => {
       </div>
 
       <div className="navBar__status">
-        <div className="navBar__user">Logged in as <a className="navBar__link" href={sessionInfo.instanceUrl} target="_blank" rel="noopener noreferrer">{sessionInfo.username}</a></div>
+        <div className="navBar__user">
+          Logged in as <a className="navBar__username" href={sessionInfo.instanceUrl} target="_blank" rel="noopener noreferrer">{sessionInfo.username}</a>
+        </div>
         <button disabled={logoutStatus} type="button" onClick={logout} className={"unstyled-button navBar__logout" + (logoutStatus===true ? ' active' : '')}>Logout</button>
         <SettingsDrawer position="right" />
       </div>

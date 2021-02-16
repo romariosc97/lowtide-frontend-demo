@@ -77,17 +77,18 @@ const Card = ({
       >
         <div className="card-header__leftArea">
           {type === 'available' ? (
-            <Checkbox template_key={data.template_key} selected={selected} setParentSelected={setSelected} />
+            (loading ? <CircularProgress thickness={7.5} style={{color: 'white', width:"20px", height:"20px", marginRight: "12px"}}></CircularProgress> : <Checkbox template_key={data.template_key} selected={selected} setParentSelected={setSelected} />)
           ) : null}
-          <div className="summaryBody__title"><span>{data.name}</span>{(loading ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : '')}</div>
+          <div className="summaryBody__title"><span>{data.name}</span></div>
         </div>
         <div className="card-header__rightArea"></div>
       </AccordionSummary>
 
       <AccordionDetails
         classes={{
-          root: classes.detailsRoot,
+          root: classes.detailsRoot
         }}
+        className={loading ? classes.loadingCard : ''}
       >
         <div className="cardContent">
           <div className="cardContent__body">
@@ -103,8 +104,8 @@ const Card = ({
             <div  className="cardContent__body__content">
               <Box flexWrap="wrap" display="flex">
                 {
-                  data.dashboards.map((value) => (
-                    <Box display="flex" alignItems="center">
+                  data.dashboards.map((value, i) => (
+                    <Box key={i} display="flex" alignItems="center">
                       <Equalizer></Equalizer> {value}
                     </Box>
                   ))
@@ -117,8 +118,8 @@ const Card = ({
             <div  className="cardContent__body__content">
               <Box flexWrap="wrap" display="flex">
                 {
-                  data.datasets.map((value) => (
-                    <Box display="flex" alignItems="center">
+                  data.datasets.map((value, i) => (
+                    <Box key={i} display="flex" alignItems="center">
                       <ViewQuilt></ViewQuilt> {value}
                     </Box>
                   ))

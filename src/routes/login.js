@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { Paper, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import './login.scss';
 import Illustration from '../assets/Charts.svg';
 import SalesforceIcon from '../assets/salesforce1.svg';
+import { Send } from '@material-ui/icons';
 
 import useLogin from '../hooks/useLogin';
 import { API_URL } from '../config/configuration';
@@ -51,8 +52,7 @@ const Login = () => {
           Login to your <span className="blue">Salesforce Org</span>
         </h2>
         <p className="login-screen__description">
-          Login to get the latest templates and timeshifting tool from the
-          Salesforce EAPMM team!
+          Establish a connection with your Salesforce Org to deploy analytics app templates and timeshift datasets. Brought to you by the TCRMPMM squad.
         </p>
         <form
           className="login-screen__form"
@@ -62,7 +62,7 @@ const Login = () => {
           <input
             className="login-screen__input"
             type="email"
-            placeholder="Salesforce account"
+            placeholder="username@mydemo.org"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -70,13 +70,13 @@ const Login = () => {
           <input
             className="login-screen__input"
             type="password"
-            placeholder="Password"
+            placeholder=""
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <button disabled={submitStatus} className="login-screen__submit">
-            {submitStatus===true ? <CircularProgress color="secondary" style={{width:"16px", height:"16px", color: "white"}}></CircularProgress> : <div>Submit</div> }
+            {submitStatus===true ? <CircularProgress color="secondary" style={{width:"16px", height:"16px", color: "white"}}></CircularProgress> : <Fragment><Send/> <span>Submit</span></Fragment> }
           </button>
         </form>
         <div className="login-screen__or-text">or</div>

@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     backgroundColor: '#737373',
     margin: '6px 6px 0 0',
     padding: '0 2px',
+    height: "18px"
   },
   chipRootSelected: {
     backgroundColor: '#1f86e0',
@@ -20,6 +21,9 @@ const useStyles = makeStyles({
     fontFamily: 'Open Sans',
     fontSize: 'x-small',
     marginRight: '1px',
+    textTransform: 'lowercase',
+    paddingRight: '6px',
+    paddingLeft: '6px' 
   },
 });
 

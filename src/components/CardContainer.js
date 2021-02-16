@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 const useStyles = makeStyles({
   root: {
     padding: '1.5rem',
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#FBFBFB',
     borderRadius: 10,
     width: (styles) => styles.width,
     height: (styles) => styles.height,

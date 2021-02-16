@@ -47,6 +47,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: 0.4s;
 
         &>*:nth-child(-n + 2) {
             color: $dark-gray;
@@ -58,9 +59,19 @@
             text-decoration: none;
             color: $error;
         }
+        .navBar__logout:hover{
+            color:#ef4741;
+        }
         .navBar__logout.active{
             color:#d28380;
             cursor:wait;
         }
+    }
+    &__username {
+        transition: 0.4s;
+        color: $main-blue;
+    }
+    &__username:hover {
+        color: #3F81F3;
     }
 }
