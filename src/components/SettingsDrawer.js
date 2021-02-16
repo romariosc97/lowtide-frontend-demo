@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 });
 
 const SettingsDrawer = ({ position }) => {
-  const { setBranch, branch, setBranchTemplates } = useContext(GlobalContext);
+  const { setBranch, branch, setAvailableTemplates } = useContext(GlobalContext);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -49,7 +49,7 @@ const SettingsDrawer = ({ position }) => {
   };
 
   const handleChange = (event) => {
-    setBranchTemplates([]);
+    setAvailableTemplates([]);
     setBranch(event.target.value);
   };
 

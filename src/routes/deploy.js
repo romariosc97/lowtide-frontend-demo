@@ -10,6 +10,7 @@ import useDeploy from '../hooks/useDeploy';
 
 import '../assets/pagesStyles.scss';
 import { GlobalContext } from '../context/GlobalContext';
+import { FilterContext } from '../context/FilterContext';
 
 const useStyles = makeStyles({
   buttonLabel: {
@@ -34,18 +35,23 @@ const useStyles = makeStyles({
 const Deploy = () => {
 
   const classes = useStyles();
-  const { branch, branchTemplates, orgTemplates } = useContext(GlobalContext);
-  let {getBranchTemplates, getOrgTemplates} = useDeployCards();
+  const { branch, availableTemplates, orgTemplates } = useContext(GlobalContext);
+  const { filterSource, setFilterSource } = useContext(FilterContext);
+  let {getAvailableTemplates, getOrgTemplates} = useDeployCards();
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
 
   useEffect(() => {
     document.title = 'Lowtide | Deploy';
-    getBranchTemplates();
+    getAvailableTemplates();
   }, [branch]);
 
   useEffect(() => {
     getOrgTemplates();
   }, []);
+
+  useEffect(()=>{
+    setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});
+  }, [orgTemplates]);
 
   return (
     <div className="fullPage">
@@ -65,23 +71,25 @@ const Deploy = () => {
             title="Available Templates"
             searchPlaceholder="Search Templates"
           >
-            {branchTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : branchTemplates.map((card, i) => (
-              <Card
-                key={i}
-                type={'available'}
-                //startExpanded={i === 0}
-                //warning={i === 6}
-                data={{
-                  name: card.template.label,
-                  description: card.template.description,
-                  tags: card.template.tags,
-                  template_key: card.template.template_key,
-                  dashboards: card.template.dashboards,
-                  datasets: card.template.datasets,
-                }}
-                handleCardSelection={handleCardSelection}
-              />
-            ))}
+            {
+              availableTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : availableTemplates.map((card, i) => (
+                <Card
+                  key={i}
+                  type={'available'}
+                  //startExpanded={i === 0}
+                  //warning={i === 6}
+                  data={{
+                    name: card.template.label,
+                    description: card.template.description,
+                    tags: card.template.tags,
+                    template_key: card.template.template_key,
+                    dashboards: card.template.dashboards,
+                    datasets: card.template.datasets,
+                  }}
+                  handleCardSelection={handleCardSelection}
+                />
+              ))
+            }
           </CardContainer>
 
           <Button

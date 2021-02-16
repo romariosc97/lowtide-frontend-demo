@@ -4,7 +4,7 @@ const GlobalContext = createContext();
 
 const GlobalContextProvider = (props) => {
   const [branch, setBranch] = useState('beta');
-  const [branchTemplates, setBranchTemplates] = useState([]);
+  const [availableTemplates, setAvailableTemplates] = useState([]);
   const [orgTemplates, setOrgTemplates] = useState([]);
 
   const [jobsPending, setJobsPending] = useState(false);
@@ -61,8 +61,8 @@ const GlobalContextProvider = (props) => {
         setTemplatesDeployed,
         socketAux,
         setSocketAux,
-        branchTemplates,
-        setBranchTemplates,
+        availableTemplates,
+        setAvailableTemplates,
         orgTemplates,
         setOrgTemplates
       }}

@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, InputBase } from '@material-ui/core';
 
 import FilterBox from './FilterBox';
 import { FilterContext } from '../context/FilterContext';
+import { GlobalContext } from '../context/GlobalContext';
 
 const useStyles = makeStyles({
   root: {
@@ -26,17 +27,23 @@ const SearchBar = ({ type, placeholder }) => {
   const [text, setText] = useState('');
 
   // get these values if the component is wrapped up by the FiltersContext, otherwise make them null
+  const { availableTemplates, setAvailableTemplates, orgTemplates, setOrgTemplates } = useContext(GlobalContext);
   const isDeployPage = Boolean(useContext(FilterContext));
-  const { setRepoSearchText = null, setOrgSearchText = null } =
-    useContext(FilterContext) || {};
+  const { filterTexts, setFilterTexts, filterResults, setFilterResults, filterSource } = useContext(FilterContext);
 
   const handleChange = (e) => {
     setText(e.target.value);
-    if (isDeployPage) {
-      if (type === 'available') return setRepoSearchText(text);
-      setOrgSearchText(text);
-    } else {
-      // Handle change for tiemshift page
+    setFilterTexts({...filterTexts, [type]: e.target.value});
+    let pattern = e.target.value;
+    let filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+    setFilterResults({...filterResults, [type]: filtered});
+    switch(type){
+      case 'available':
+        setAvailableTemplates(filtered);
+        break;
+      case 'org':
+        setOrgTemplates(filtered);
+        break;
     }
   };
 

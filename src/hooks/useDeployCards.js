@@ -6,14 +6,13 @@ import { SOCKET_URL, API_URL } from '../config/configuration';
 import { GlobalContext } from '../context/GlobalContext';
 
 const useDeployCards = () => {
-  const [orgSearchText, setOrgSearchText] = useState([]);
-  const { branch, setBranchTemplates, setOrgTemplates } = useContext(GlobalContext);
-  /*
+  //const [orgfilterTexts, setOrgfilterTexts] = useState([]);
+  const { branch, setAvailableTemplates, setOrgTemplates, availableTemplates, orgTemplates } = useContext(GlobalContext);
+  
   const {
-    repoSearchText,
-    orgSearchText,
+
   } = useContext(FilterContext);
-  */
+  
   const templateAxios = axios.create({
     withCredentials: true,
   });
@@ -24,13 +23,13 @@ const useDeployCards = () => {
     setOrgTemplates(cards);
   };
 
-  const getBranchTemplates = async () => {
+  const getAvailableTemplates = async () => {
     const result = await templateAxios.get(`${API_URL}/repository/template/${branch}`);
     const cards = result.data;
-    setBranchTemplates(cards);
+    setAvailableTemplates(cards);
   };
 
-  return {getBranchTemplates, getOrgTemplates};
+  return {getAvailableTemplates, getOrgTemplates};
 };
 
 export default useDeployCards;
