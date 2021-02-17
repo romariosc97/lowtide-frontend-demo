@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, InputBase } from '@material-ui/core';
+import { Paper, InputBase, TextField, MenuItem } from '@material-ui/core';
 
 import FilterBox from './FilterBox';
 import { FilterContext } from '../context/FilterContext';
@@ -19,6 +19,21 @@ const useStyles = makeStyles({
     fontSize: '.8rem',
     flex: 1,
   },
+  select: {
+    width: '75px',
+    '& .MuiInput-underline':{
+      '& .MuiInputBase-input': {
+        fontFamily: 'Open Sans',
+        fontSize: '14px'
+      },
+      '& .MuiInput-input': {
+        paddingLeft: '7.5px',
+      },
+      '&::before, &:hover, &:hover:not(.Mui-disabled):before, &::after': {
+        borderBottom: 'none',
+      }
+    }
+  }
 });
 
 const SearchBar = ({ type, placeholder }) => {
@@ -56,7 +71,25 @@ const SearchBar = ({ type, placeholder }) => {
         onChange={(e) => handleChange(e)}
       />
       {/* FilterBox only for deploy page */}
-      {isDeployPage && <FilterBox type={type} />}
+      {/* isDeployPage && <FilterBox type={type} /> */}
+      {
+        <TextField
+          className={classes.select}
+          id="standard-select-currency"
+          select
+          label=""
+          value={'name'}
+          //onChange={handleChange}
+          helperText=""
+        >
+          <MenuItem value={'name'}>
+            Name
+          </MenuItem>
+          <MenuItem value={'tag'}>
+            Tag
+          </MenuItem>
+        </TextField>
+      }
     </Paper>
   );
 };
