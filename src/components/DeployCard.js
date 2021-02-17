@@ -77,7 +77,7 @@ const Card = ({
       >
         <div className="card-header__leftArea">
           {type === 'available' ? (
-            (loading ? <CircularProgress thickness={7.5} style={{color: 'white', width:"20px", height:"20px", marginRight: "12px"}}></CircularProgress> : <Checkbox template_key={data.template_key} selected={selected} setParentSelected={setSelected} />)
+            (loading ? <CircularProgress thickness={7.5} style={{color: 'white', width:"22px", height:"20px"}}></CircularProgress> : <Checkbox template_key={data.template_key} selected={selected} setParentSelected={setSelected} />)
           ) : null}
           <div className="summaryBody__title"><span>{data.name}</span></div>
         </div>

@@ -76,7 +76,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button disabled={submitStatus} className="login-screen__submit">
-            {submitStatus===true ? <CircularProgress color="secondary" style={{width:"16px", height:"16px", color: "white"}}></CircularProgress> : <Fragment><Send/> <span>Submit</span></Fragment> }
+            {submitStatus===true ? <CircularProgress color="secondary" thickness={7.5} style={{width:"16px", height:"16px", color: "white"}}></CircularProgress> : <Fragment><Send/> <span>Submit</span></Fragment> }
           </button>
         </form>
         <div className="login-screen__or-text">or</div>
