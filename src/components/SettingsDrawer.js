@@ -51,6 +51,7 @@ const SettingsDrawer = ({ position }) => {
   const handleChange = (event) => {
     setAvailableTemplates([]);
     setBranch(event.target.value);
+    console.log(open);
   };
 
   const list = (anchor) => (
@@ -60,8 +61,8 @@ const SettingsDrawer = ({ position }) => {
         ["settings"]: true
       })}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      //onClick={toggleDrawer(anchor, false)}
+      //onKeyDown={toggleDrawer(anchor, false)}
     >
       <div className="settings__title">Settings</div>
       <div className="settings__content">

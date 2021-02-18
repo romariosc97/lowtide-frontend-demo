@@ -102,6 +102,8 @@ const SessionContextProvider = (props) => {
           setSessionInfo({username: username, instanceUrl: instanceUrl});
         } catch (error) {
           setIsLoggedIn(false);
+          setJobDetail([])
+          setDeploying([]);
         }
       };
       setNewUsername();

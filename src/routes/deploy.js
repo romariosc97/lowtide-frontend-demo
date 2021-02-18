@@ -35,23 +35,41 @@ const useStyles = makeStyles({
 const Deploy = () => {
 
   const classes = useStyles();
-  const { branch, availableTemplates, orgTemplates } = useContext(GlobalContext);
+  const { branch, availableTemplates, orgTemplates, pageLoading, setPageLoading } = useContext(GlobalContext);
   const { filterSource, setFilterSource, filterTexts } = useContext(FilterContext);
   let {getAvailableTemplates, getOrgTemplates} = useDeployCards();
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
 
   useEffect(() => {
     document.title = 'Lowtide | Deploy';
+    if(pageLoading['available']===false){
+      setPageLoading({...pageLoading, ['available']: true});
+    }
     getAvailableTemplates();
   }, [branch]);
 
   useEffect(() => {
     getOrgTemplates();
+    setPageLoading({...pageLoading, ['available']: true, ['org']: true});
   }, []);
 
   useEffect(()=>{
     setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});
+    console.log(pageLoading['available'] && pageLoading['org'], pageLoading['available'] && !pageLoading['org'], !pageLoading['available'] && pageLoading['org']);
+    if(pageLoading['available'] && pageLoading['org']){
+      console.log('1');
+      setPageLoading({...pageLoading, ['available']: false, ['org']: false});
+    }else if(pageLoading['available'] && !pageLoading['org']){
+      console.log('2');
+      setPageLoading({...pageLoading, ['available']: false, ['org']: true});
+    }else if(!pageLoading['available'] && pageLoading['org']){
+      console.log('3');
+      setPageLoading({...pageLoading, ['available']: true, ['org']: false});
+    }
   }, [orgTemplates]);
+  useEffect(() => {
+    console.log(pageLoading);
+  }, [pageLoading]);
 
   return (
     <div className="fullPage">
@@ -71,13 +89,21 @@ const Deploy = () => {
             title="Available Templates"
             searchPlaceholder="Search Templates"
           >
+            {console.log(pageLoading['available'])}
             {
               availableTemplates.length===0 ? 
                 (filterTexts['available'] ? 
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
-                  No results found.
-                </Box> : 
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> )
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                    No results found.
+                  </Box> :
+                  (
+                    pageLoading['available'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
+                    : 
+                    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                      No templates in your org.
+                    </Box>
+                  )
+                )
               : availableTemplates.map((card, i) => (
                 <Card
                   key={i}
@@ -122,7 +148,13 @@ const Deploy = () => {
                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
                   No results found.
                 </Box> :
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> 
+                (
+                  pageLoading['org'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> 
+                  : 
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                    No templates in your org.
+                  </Box>
+                )
               )
             : orgTemplates.map((card, i) => (
               <Card
