@@ -36,7 +36,7 @@ const Deploy = () => {
 
   const classes = useStyles();
   const { branch, availableTemplates, orgTemplates } = useContext(GlobalContext);
-  const { filterSource, setFilterSource } = useContext(FilterContext);
+  const { filterSource, setFilterSource, filterTexts } = useContext(FilterContext);
   let {getAvailableTemplates, getOrgTemplates} = useDeployCards();
   const {selectedTemplates, deployStatus, handleCardSelection, deployCards} = useDeploy();
 
@@ -72,7 +72,13 @@ const Deploy = () => {
             searchPlaceholder="Search Templates"
           >
             {
-              availableTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : availableTemplates.map((card, i) => (
+              availableTemplates.length===0 ? 
+                (filterTexts['available'] ? 
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  No results found.
+                </Box> : 
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> )
+              : availableTemplates.map((card, i) => (
                 <Card
                   key={i}
                   type={'available'}
@@ -111,7 +117,14 @@ const Deploy = () => {
             title="Your Org"
             searchPlaceholder="Search Templates"
           >
-            {orgTemplates.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgTemplates.map((card, i) => (
+            {orgTemplates.length===0 ?
+              (filterTexts['org'] ? 
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  No results found.
+                </Box> :
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> 
+              )
+            : orgTemplates.map((card, i) => (
               <Card
                 key={i}
                 type={'org'}

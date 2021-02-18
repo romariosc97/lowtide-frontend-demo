@@ -6,6 +6,7 @@ const FilterContextProvider = (props) => {
   const [filterTexts, setFilterTexts] = useState({});
   const [filterResults, setFilterResults] = useState({});
   const [filterSource, setFilterSource] = useState({});
+  const [filterField, setFilterField] = useState({});
 
   const [allRepoTags, setAllRepoTags] = useState([]);
   const [selectedRepoTags, setSelectedRepoTags] = useState([]);
@@ -33,7 +34,9 @@ const FilterContextProvider = (props) => {
         filterResults,
         setFilterResults,
         filterSource,
-        setFilterSource
+        setFilterSource,
+        filterField,
+        setFilterField
       }}
     >
       {props.children}

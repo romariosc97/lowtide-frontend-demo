@@ -42,16 +42,53 @@ const SearchBar = ({ type, placeholder }) => {
   const [text, setText] = useState('');
 
   // get these values if the component is wrapped up by the FiltersContext, otherwise make them null
-  const { availableTemplates, setAvailableTemplates, orgTemplates, setOrgTemplates } = useContext(GlobalContext);
-  const isDeployPage = Boolean(useContext(FilterContext));
-  const { filterTexts, setFilterTexts, filterResults, setFilterResults, filterSource } = useContext(FilterContext);
+  const { setAvailableTemplates, setOrgTemplates } = useContext(GlobalContext);
+  const { filterTexts, setFilterTexts, filterResults, setFilterResults, filterSource, filterField, setFilterField } = useContext(FilterContext);
 
   const handleChange = (e) => {
-    setText(e.target.value);
-    setFilterTexts({...filterTexts, [type]: e.target.value});
-    let pattern = e.target.value;
-    let filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
-    setFilterResults({...filterResults, [type]: filtered});
+
+    let filtered = [];
+    let pattern = '';
+
+    switch (filterField[type]) {
+      case 'name':
+        setText(e.target.value);
+        setFilterTexts({...filterTexts, [type]: e.target.value});
+        pattern = e.target.value;
+        filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        setFilterResults({...filterResults, [type]: filtered});
+        break;
+      case 'tag':
+        //console.log('no se filtrar');
+        //filtered = filterSource[type];
+        setText(e.target.value);
+        setFilterTexts({...filterTexts, [type]: e.target.value});
+        pattern = e.target.value;
+        filtered = filterSource[type].filter(
+          (value) => {
+            let auxiliar = false;
+            if('tags' in value.template){
+              for (let i = 0; i < value.template.tags.length; i++) {
+                if((value.template.tags[i].toLowerCase()).indexOf(pattern.toLowerCase()) !== -1){
+                  auxiliar = true;
+                } 
+              }
+            }
+            return auxiliar;
+          }
+        );
+        setFilterResults({...filterResults, [type]: filtered});
+        break;
+    
+      default:
+        setText(e.target.value);
+        setFilterTexts({...filterTexts, [type]: e.target.value});
+        pattern = e.target.value;
+        filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        setFilterResults({...filterResults, [type]: filtered});
+        break;
+    }
+
     switch(type){
       case 'available':
         setAvailableTemplates(filtered);
@@ -60,6 +97,9 @@ const SearchBar = ({ type, placeholder }) => {
         setOrgTemplates(filtered);
         break;
     }
+  };
+  const handleSelectChange = (e) => {
+    setFilterField({...filterField, [type]: e.target.value});
   };
 
   return (
@@ -75,11 +115,11 @@ const SearchBar = ({ type, placeholder }) => {
       {
         <TextField
           className={classes.select}
-          id="standard-select-currency"
+          id="filterField"
           select
           label=""
-          value={'name'}
-          //onChange={handleChange}
+          value={filterField[type] || 'name'}
+          onChange={handleSelectChange}
           helperText=""
         >
           <MenuItem value={'name'}>
