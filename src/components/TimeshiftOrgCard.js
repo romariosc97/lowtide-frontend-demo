@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -13,24 +13,29 @@ import useAccordionStyles from '../hooks/useAccordionStyles.js';
 import useCardStyles from '../hooks/useCardStyles.js';
 
 import useTimeshiftOrgCard from '../hooks/useTimeshiftOrgCard';
+import { GlobalContext } from '../context/GlobalContext';
 
 const Card = ({
   data,
 }) => {  
-  const { deleteOrgDataset } = useTimeshiftOrgCard();
+  const { deleteOrgDataset, handleOrgExpanded } = useTimeshiftOrgCard();
   const classescard = useCardStyles();
   const classesaccordion = useAccordionStyles();
-
+  const { orgFolders, orgExpanded, setOrgExpanded } = useContext(GlobalContext);
 
   // Add card to selected cards array.
-  useEffect(() => {
+  /* useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      
+      let tmp = {};
+      for (let i = 0; i < orgFolders.length; i++) {
+        tmp = {...tmp, [orgFolders[i].Id]: false};
+      }
+      setOrgExpanded(tmp);
     }
     return () => { isMounted = true };
-  }, []);
-
+  }, [orgFolders]);
+ */
   return (
     <Accordion
       //defaultExpanded={startExpanded}
@@ -39,6 +44,8 @@ const Card = ({
         root: classescard.root,
         expanded: classescard.expanded,
       }}
+      expanded={orgExpanded[data.id]}
+      onClick={() => handleOrgExpanded(data.id)}
     >
       <AccordionSummary
         expandIcon={<ExpandMore className={classescard.arrow} />}
@@ -78,7 +85,7 @@ const Card = ({
             <p><strong className="blue">Created Date:</strong> {data.createdDate}</p>
           </div>
           <div className="cardContent__actions">
-            <Button className={classesaccordion.deleteButton} variant="contained" color="secondary" onClick={deleteOrgDataset}>
+            <Button className={classesaccordion.deleteButton} variant="contained" color="secondary" onClick={() => deleteOrgDataset(data.id)}>
               <Delete /> Delete
             </Button>
           </div>

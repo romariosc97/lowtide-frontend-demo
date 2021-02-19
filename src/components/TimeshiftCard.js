@@ -42,6 +42,7 @@ const Card = ({
   }, []);
 
   const handleChange = (i) => {
+    console.log(expanded);
     setExpanded({
       ...expanded,
       [i]: expanded[i] ? false : true

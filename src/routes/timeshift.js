@@ -38,7 +38,7 @@ function Timeshift() {
 
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
-  const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder } = useContext(GlobalContext);
+  const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder, orgExpanded } = useContext(GlobalContext);
   const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
   const classes = useStyles();
 
@@ -111,7 +111,9 @@ function Timeshift() {
             title="Timeshifting Dataflows"
 
           >
-            {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : orgFolders.map((card, i) => (
+            {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : 
+            Object.keys(orgExpanded).length>0 ?
+            orgFolders.map((card, i) => (
               <OrgCard
                 key={i}
                 data={{
@@ -124,7 +126,7 @@ function Timeshift() {
                 }}
 
               />
-            ))}
+            )): 'Sin resultados.'}
           </CardContainer>
         </div>
       </main>

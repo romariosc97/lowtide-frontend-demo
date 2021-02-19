@@ -6,7 +6,7 @@ import { API_URL } from '../config/configuration';
 const useTimeshift = () => {
   const [timeshiftStatus, setTimeshiftStatus] = useState(false);
   const [expanded, setExpanded] = useState({});
-  const { setFolders, datasets, setDatasets, selectedDatasets, setSelectedDatasets, selectedFolder, setOrgFolders } = useContext(GlobalContext);
+  const { setFolders, datasets, setDatasets, selectedDatasets, setSelectedDatasets, selectedFolder, setOrgFolders, setOrgExpanded } = useContext(GlobalContext);
   const handleCardSelection = (key, selected) => {
     if (selected) {
       setSelectedDatasets([...selectedDatasets, key]);
@@ -56,6 +56,11 @@ const useTimeshift = () => {
     });
     const result = await datasetAxios.get(`${API_URL}/org/dataflow/timeshift`);
     setOrgFolders(result.data);
+    let tmp = {};
+    for (let i = 0; i < result.data.length; i++) {
+      tmp = {...tmp, [result.data[i].Id]: false};
+    }
+    setOrgExpanded(tmp);
   }
 
   return {getFolders: getFolders, handleCardSelection: handleCardSelection, handleCardCollapse: handleCardCollapse, expanded: expanded, setExpanded: setExpanded, timeshift: timeshift, timeshiftStatus: timeshiftStatus, setTimeshiftStatus: setTimeshiftStatus, getOrgFolders: getOrgFolders};

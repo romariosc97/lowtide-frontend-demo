@@ -25,7 +25,7 @@ const GlobalContextProvider = (props) => {
   const [selectedFolder, setSelectedFolder] = useState({});
   const [timeshifting, setTimeshifting] = useState([]);
 
-  
+  const [orgExpanded, setOrgExpanded] = useState({});
 
   return (
     <GlobalContext.Provider
@@ -67,7 +67,9 @@ const GlobalContextProvider = (props) => {
         orgTemplates,
         setOrgTemplates,
         pageLoading,
-        setPageLoading
+        setPageLoading,
+        orgExpanded,
+        setOrgExpanded
       }}
     >
       {props.children}

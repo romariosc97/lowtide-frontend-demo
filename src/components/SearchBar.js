@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, InputBase, TextField, MenuItem } from '@material-ui/core';
 
-import FilterBox from './FilterBox';
 import { FilterContext } from '../context/FilterContext';
 import { GlobalContext } from '../context/GlobalContext';
 
@@ -96,6 +95,9 @@ const SearchBar = ({ type, placeholder }) => {
       case 'org':
         setOrgTemplates(filtered);
         break;
+      default:
+        console.log('An error ocurred.')
+        break;
     }
   };
   const handleSelectChange = (e) => {
@@ -110,8 +112,6 @@ const SearchBar = ({ type, placeholder }) => {
         value={text}
         onChange={(e) => handleChange(e)}
       />
-      {/* FilterBox only for deploy page */}
-      {/* isDeployPage && <FilterBox type={type} /> */}
       {
         <TextField
           className={classes.select}

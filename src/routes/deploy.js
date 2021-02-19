@@ -54,22 +54,14 @@ const Deploy = () => {
   }, []);
 
   useEffect(()=>{
-    setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});
-    console.log(pageLoading['available'] && pageLoading['org'], pageLoading['available'] && !pageLoading['org'], !pageLoading['available'] && pageLoading['org']);
-    if(pageLoading['available'] && pageLoading['org']){
-      console.log('1');
+    setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});    if(pageLoading['available'] && pageLoading['org']){
       setPageLoading({...pageLoading, ['available']: false, ['org']: false});
     }else if(pageLoading['available'] && !pageLoading['org']){
-      console.log('2');
       setPageLoading({...pageLoading, ['available']: false, ['org']: true});
     }else if(!pageLoading['available'] && pageLoading['org']){
-      console.log('3');
       setPageLoading({...pageLoading, ['available']: true, ['org']: false});
     }
   }, [orgTemplates]);
-  useEffect(() => {
-    console.log(pageLoading);
-  }, [pageLoading]);
 
   return (
     <div className="fullPage">
@@ -89,7 +81,6 @@ const Deploy = () => {
             title="Available Templates"
             searchPlaceholder="Search Templates"
           >
-            {console.log(pageLoading['available'])}
             {
               availableTemplates.length===0 ? 
                 (filterTexts['available'] ? 

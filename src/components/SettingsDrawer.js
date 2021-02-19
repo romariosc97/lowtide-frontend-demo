@@ -6,7 +6,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { Radio } from '@material-ui/core';
 import { GlobalContext } from '../context/GlobalContext';
 import './Settings.scss';
-import useDeployCards from '../hooks/useDeployCards';
 
 const useStyles = makeStyles({
   list: {
@@ -58,7 +57,7 @@ const SettingsDrawer = ({ position }) => {
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-        ["settings"]: true
+        "settings": true
       })}
       role="presentation"
       //onClick={toggleDrawer(anchor, false)}
