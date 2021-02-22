@@ -7,14 +7,17 @@ const useCardStyles = makeStyles({
     boxShadow: 'none',
     '&$expanded': {
       margin: '0 0 3px 0',
-    },
+    }
   },
-  expanded: {},
+  expanded: {
+    marginTop: '1rem',
+  },
   header: {
     backgroundColor: '#3F81F3',
     color: '#F6F6F6',
     fontWeight: 400,
     alignItems: 'center',
+    borderRadius: "7px"
   },
   selected: {
     backgroundColor: '#203988',

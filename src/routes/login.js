@@ -59,7 +59,9 @@ const Login = () => {
           ref={formRef}
           onSubmit={handleSubmit}
         >
+          <label htmlFor="username">Username</label>
           <input
+            id="username"
             className="login-screen__input"
             type="email"
             placeholder="username@mydemo.org"
@@ -67,7 +69,9 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             className="login-screen__input"
             type="password"
             placeholder=""
@@ -76,7 +80,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button disabled={submitStatus} className="login-screen__submit">
-            {submitStatus===true ? <CircularProgress color="secondary" thickness={7.5} style={{width:"16px", height:"16px", color: "white"}}></CircularProgress> : <Fragment><Send/> <span>Submit</span></Fragment> }
+            {submitStatus===true ? <CircularProgress color="secondary" thickness={7.5} style={{width:"24px", height:"24px", color: "white"}}></CircularProgress> : <Fragment><Send/> <span>Submit</span></Fragment> }
           </button>
         </form>
         <div className="login-screen__or-text">or</div>

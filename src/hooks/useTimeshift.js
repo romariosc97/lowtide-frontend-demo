@@ -1,11 +1,13 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { GlobalContext } from '../context/GlobalContext';
+import { FilterContext } from '../context/FilterContext';
 import { API_URL } from '../config/configuration';
 
 const useTimeshift = () => {
   const [timeshiftStatus, setTimeshiftStatus] = useState(false);
   const [expanded, setExpanded] = useState({});
+  const { filterSource, setFilterSource } = useContext(FilterContext);
   const { setFolders, datasets, setDatasets, selectedDatasets, setSelectedDatasets, selectedFolder, setOrgFolders, setOrgExpanded } = useContext(GlobalContext);
   const handleCardSelection = (key, selected) => {
     if (selected) {
@@ -34,6 +36,7 @@ const useTimeshift = () => {
       withCredentials: true,
     });
     const result = await datasetAxios.get(`${API_URL}/org/folder`);
+    setFilterSource({...filterSource, ['folder']: result.data});
     setFolders(result.data);
   };
 

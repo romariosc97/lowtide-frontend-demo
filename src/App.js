@@ -34,7 +34,11 @@ const App = () => {
             )}
           </Route>
           <Route path="/timeshift">
-            {(isLoggedIn===null) ? <LoadingScreen></LoadingScreen> : (isLoggedIn) ? <Timeshift /> : <Redirect to="/login" />}
+            {(isLoggedIn===null) ? <LoadingScreen></LoadingScreen> : (isLoggedIn) ?
+            <FilterContextProvider>
+              <Timeshift /> 
+            </FilterContextProvider>
+            : <Redirect to="/login" />}
           </Route>
           <Route path="/jobs">
             {(isLoggedIn==null) ? <LoadingScreen></LoadingScreen> : (isLoggedIn) ? <Jobs /> : <Redirect to="/login" />}

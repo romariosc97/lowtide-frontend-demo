@@ -41,7 +41,7 @@ const SearchBar = ({ type, placeholder }) => {
   const [text, setText] = useState('');
 
   // get these values if the component is wrapped up by the FiltersContext, otherwise make them null
-  const { setAvailableTemplates, setOrgTemplates } = useContext(GlobalContext);
+  const { setAvailableTemplates, setOrgTemplates, setFolders, setOrgFolders } = useContext(GlobalContext);
   const { filterTexts, setFilterTexts, filterResults, setFilterResults, filterSource, filterField, setFilterField } = useContext(FilterContext);
 
   const handleChange = (e) => {
@@ -54,12 +54,16 @@ const SearchBar = ({ type, placeholder }) => {
         setText(e.target.value);
         setFilterTexts({...filterTexts, [type]: e.target.value});
         pattern = e.target.value;
-        filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        if(type==="folder"){
+          filtered = filterSource[type].filter((value) => (value.Name.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }else if(type==="orgFolder"){
+          filtered = filterSource[type].filter((value) => (value.MasterLabel.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }else{
+          filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }
         setFilterResults({...filterResults, [type]: filtered});
         break;
       case 'tag':
-        //console.log('no se filtrar');
-        //filtered = filterSource[type];
         setText(e.target.value);
         setFilterTexts({...filterTexts, [type]: e.target.value});
         pattern = e.target.value;
@@ -83,7 +87,13 @@ const SearchBar = ({ type, placeholder }) => {
         setText(e.target.value);
         setFilterTexts({...filterTexts, [type]: e.target.value});
         pattern = e.target.value;
-        filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        if(type==="folder"){
+          filtered = filterSource[type].filter((value) => (value.Name.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }else if(type==="orgFolder"){
+          filtered = filterSource[type].filter((value) => (value.MasterLabel.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }else{
+          filtered = filterSource[type].filter((value) => (value.template.label.toLowerCase()).indexOf(pattern.toLowerCase()) !== -1);
+        }
         setFilterResults({...filterResults, [type]: filtered});
         break;
     }
@@ -94,6 +104,12 @@ const SearchBar = ({ type, placeholder }) => {
         break;
       case 'org':
         setOrgTemplates(filtered);
+        break;
+      case 'folder':
+        setFolders(filtered);
+        break;
+      case 'orgFolder':
+        setOrgFolders(filtered);
         break;
       default:
         console.log('An error ocurred.')
@@ -125,9 +141,13 @@ const SearchBar = ({ type, placeholder }) => {
           <MenuItem value={'name'}>
             Name
           </MenuItem>
-          <MenuItem value={'tag'}>
-            Tag
-          </MenuItem>
+          { type==="folder" || type==="orgFolder" ?
+            ''
+            :
+            <MenuItem value={'tag'}>
+              Tag
+            </MenuItem>
+          }
         </TextField>
       }
     </Paper>

@@ -54,7 +54,11 @@ const Deploy = () => {
   }, []);
 
   useEffect(()=>{
-    setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});    if(pageLoading['available'] && pageLoading['org']){
+    if((!filterSource['available'] && !filterSource['org']) && (orgTemplates.length>0 || availableTemplates.length>0)){
+      setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});
+    }
+    //setFilterSource({...filterSource, ['org']: orgTemplates, ['available']: availableTemplates});
+    if(pageLoading['available'] && pageLoading['org']){
       setPageLoading({...pageLoading, ['available']: false, ['org']: false});
     }else if(pageLoading['available'] && !pageLoading['org']){
       setPageLoading({...pageLoading, ['available']: false, ['org']: true});
@@ -91,7 +95,7 @@ const Deploy = () => {
                     pageLoading['available'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
                     : 
                     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
-                      No templates in your org.
+                      No templates in repository.
                     </Box>
                   )
                 )
@@ -125,7 +129,7 @@ const Deploy = () => {
             }}
             onClick={() => deployCards()}
           >
-            {deployStatus ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : 'Deploy'}
+            {deployStatus ? <CircularProgress thickness={7.5} color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : 'Deploy'}
           </Button>
 
           <CardContainer

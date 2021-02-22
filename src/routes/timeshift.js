@@ -7,6 +7,7 @@ import Card from '../components/TimeshiftCard';
 import OrgCard from '../components/TimeshiftOrgCard';
 import CardContainer from '../components/CardContainer';
 import { GlobalContext } from '../context/GlobalContext';
+import { FilterContext } from '../context/FilterContext';
 import '../assets/pagesStyles.scss';
 
 import io from "socket.io-client";
@@ -38,7 +39,8 @@ function Timeshift() {
 
   const socket = io(SOCKET_URL, {transports: ['websocket', 'polling', 'flashsocket']});
 
-  const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder, orgExpanded } = useContext(GlobalContext);
+  const { folders, orgFolders, selectedDatasets, setSelectedDatasets, setSelectedFolder, orgExpanded, pageLoading, setPageLoading } = useContext(GlobalContext);
+  const { filterSource, setFilterSource, filterTexts } = useContext(FilterContext);
   const {getFolders, handleCardSelection, handleCardCollapse, timeshiftStatus, timeshift, setTimeshiftStatus, getOrgFolders} = useTimeshift();
   const classes = useStyles();
 
@@ -48,6 +50,7 @@ function Timeshift() {
       document.title = 'Lowtide | Timeshift';
       getFolders();
       getOrgFolders();
+      setPageLoading({...pageLoading, ['folder']: true, ['orgFolder']: true});
       socket.emit("subscribeToJobUpdates");
       socket.on("jobEnded", data => {
         if(data.result.success){
@@ -62,6 +65,33 @@ function Timeshift() {
     }
     return () => { isMounted = true };
   }, []);
+
+  useEffect(() => {
+    let isMounted = false;
+    if(!isMounted){
+      console.log(filterSource);
+      if(pageLoading['folder'] && pageLoading['orgFolder']){
+        setPageLoading({...pageLoading, ['folder']: false, ['orgFolder']: false});
+      }else if(pageLoading['folder'] && !pageLoading['orgFolder']){
+        setPageLoading({...pageLoading, ['folder']: false, ['orgFolder']: true});
+      }else if(!pageLoading['folder'] && pageLoading['orgFolder']){
+        setPageLoading({...pageLoading, ['folder']: true, ['orgFolder']: false});
+      }
+    }
+    return () => { isMounted = true };
+  }, [orgFolders]);
+
+  useEffect(() => {
+    let isMounted = false;
+    if(!isMounted){
+      if(!filterSource['orgFolder']){
+        console.log('gaaaa')
+        setFilterSource({...filterSource, ['orgFolder']: orgFolders});
+      }
+    }
+    return () => { isMounted = true };
+  }, [orgFolders, filterSource]);
+
   return (
     <div className="fullPage">
       <NavBar activeTab="timeshift" />
@@ -74,10 +104,25 @@ function Timeshift() {
         </p>
         <div className="page-mainContainer">
           <CardContainer
+            type="folder"
             styles={{ width: '30vw', height: '65vh' }}
             title="Analytics Apps"
+            searchPlaceholder="Search Folders"
           >
-            {folders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : folders.map((card, i) => (
+            {folders.length===0 ? 
+              (filterTexts['folder'] ? 
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  No results found.
+                </Box> :
+                (
+                  pageLoading['folder'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
+                  : 
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                    No datasets in repository.
+                  </Box>
+                )
+              )
+            : folders.map((card, i) => (
               <Card
                 key={i}
                 data={{
@@ -103,15 +148,29 @@ function Timeshift() {
             }}
             onClick={() => timeshift()}
           >
-            {timeshiftStatus ? <CircularProgress color="primary" style={{width:"20px", height:"20px", float:'right'}}></CircularProgress> : 'Timeshift'}
+            {timeshiftStatus ? <CircularProgress thickness={7.5} color="primary" style={{width:"20px", height:"20px", padding:"4px 33px"}}></CircularProgress> : 'Timeshift'}
           </Button>
 
           <CardContainer
+            type="orgFolder"
             styles={{ width: '30vw', height: '65vh' }}
             title="Timeshifting Dataflows"
-
+            searchPlaceholder="Search Org Folders"
           >
-            {orgFolders.length===0 ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> : 
+            {orgFolders.length===0 ? 
+              (filterTexts['orgFolder'] ? 
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  No results found.
+                </Box> :
+                (
+                  pageLoading['orgFolder'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
+                  : 
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                    No dataflows in your org.
+                  </Box>
+                )
+              ) 
+            : 
             Object.keys(orgExpanded).length>0 ?
             orgFolders.map((card, i) => (
               <OrgCard
