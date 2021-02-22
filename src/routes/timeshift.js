@@ -69,7 +69,6 @@ function Timeshift() {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      console.log(filterSource);
       if(pageLoading['folder'] && pageLoading['orgFolder']){
         setPageLoading({...pageLoading, ['folder']: false, ['orgFolder']: false});
       }else if(pageLoading['folder'] && !pageLoading['orgFolder']){
@@ -85,7 +84,6 @@ function Timeshift() {
     let isMounted = false;
     if(!isMounted){
       if(!filterSource['orgFolder']){
-        console.log('gaaaa')
         setFilterSource({...filterSource, ['orgFolder']: orgFolders});
       }
     }
