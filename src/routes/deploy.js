@@ -88,13 +88,13 @@ const Deploy = () => {
             {
               availableTemplates.length===0 ? 
                 (filterTexts['available'] ? 
-                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                     No results found.
                   </Box> :
                   (
                     pageLoading['available'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
                     : 
-                    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                       No templates in repository.
                     </Box>
                   )
@@ -140,13 +140,13 @@ const Deploy = () => {
           >
             {orgTemplates.length===0 ?
               (filterTexts['org'] ? 
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                   No results found.
                 </Box> :
                 (
                   pageLoading['org'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="47.5vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box> 
                   : 
-                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                     No templates in your org.
                   </Box>
                 )

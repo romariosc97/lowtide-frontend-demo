@@ -7,10 +7,16 @@ const useCardStyles = makeStyles({
     boxShadow: 'none',
     '&$expanded': {
       margin: '0 0 3px 0',
+    },
+    '&:before': {
+      height: '0px'
     }
   },
   expanded: {
     marginTop: '1rem',
+    '& .MuiIconButton-root':{
+      marginTop: '0rem',
+    }
   },
   header: {
     backgroundColor: '#3F81F3',

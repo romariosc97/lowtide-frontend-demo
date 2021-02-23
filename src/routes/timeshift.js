@@ -83,7 +83,7 @@ function Timeshift() {
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      if(!filterSource['orgFolder']){
+      if(!filterSource['orgFolder'] && orgFolders.length>0){
         setFilterSource({...filterSource, ['orgFolder']: orgFolders});
       }
     }
@@ -109,13 +109,13 @@ function Timeshift() {
           >
             {folders.length===0 ? 
               (filterTexts['folder'] ? 
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                   No results found.
                 </Box> :
                 (
                   pageLoading['folder'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
                   : 
-                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                     No datasets in repository.
                   </Box>
                 )
@@ -157,13 +157,13 @@ function Timeshift() {
           >
             {orgFolders.length===0 ? 
               (filterTexts['orgFolder'] ? 
-                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                   No results found.
                 </Box> :
                 (
                   pageLoading['orgFolder'] ? <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="45vh" textAlign="center"><CircularProgress color="primary" style={{width:"35px", height:"35px"}}></CircularProgress></Box>
                   : 
-                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" marginTop={'30px'}>
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
                     No dataflows in your org.
                   </Box>
                 )
