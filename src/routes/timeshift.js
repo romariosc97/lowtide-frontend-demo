@@ -183,7 +183,11 @@ function Timeshift() {
                 }}
 
               />
-            )): 'Sin resultados.'}
+            )): 
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" textAlign="center" height="50vh">
+              No results found.
+            </Box>
+            }
           </CardContainer>
         </div>
       </main>

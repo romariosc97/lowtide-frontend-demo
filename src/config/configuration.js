@@ -10,10 +10,12 @@ LOCAL:
 
 */
 
-const API_URL = 'https://ltapi.herokuapp.com/api';
+//const API_URL = 'https://ltapi.herokuapp.com/api';
+const API_URL = 'https://lt4.herokuapp.com/api';
 //const API_URL = 'http://localhost:8080/api';
 
-const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+//const SOCKET_URL = 'https://ltapi.herokuapp.com/';
+const SOCKET_URL = 'https://lt4.herokuapp.com/';
 //const SOCKET_URL = 'http://localhost:8080/';
 
 const SNACKBAR_DEFAULT = {

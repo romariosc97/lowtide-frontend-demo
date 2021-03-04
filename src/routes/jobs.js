@@ -36,7 +36,7 @@ function Jobs() {
         let passTmp = false;
         let jobDetailTmp = jobDetail.map((row, i) => {
           if(row.id === socketAux.id){
-            row.result = socketAux.result;
+            row.returnvalue = {result: {deployResult: socketAux.result}, status: socketAux.status};
             passTmp = true;
           }
           return row;
@@ -55,7 +55,7 @@ function Jobs() {
       <Box width='100%' display="flex" justifyContent="center" alignItems="center" flexDirection="column" minHeight="200px" textAlign="center">
         <span className={classes.pendingTitle}>This job is pending.</span>
         <LinearProgress className={classes.linearProgress} />
-        <span className={classes.status}><b>Status:</b> {jobUpdates[id] || 'Loading'}</span>
+        <span className={classes.status}><b>Status:</b> {jobUpdates[id] || 'Queued'}</span>
       </Box>
     </Fragment>
   );
@@ -70,90 +70,30 @@ function Jobs() {
         </p>
         <div className="page-mainContainer">
           <Grid container spacing={3} className={classes.grid}>
-            {Object.keys(expanded).length>0 ? jobs.map((card, i) => (
+            {Object.keys(expanded).length>0 ? jobDetail.map((card, i) => (
               <Grid key={i} item xs={4}>
                 <Card className={classes.root} variant="outlined">
                   <CardContent className={classes.content}>
                     <p className={classes.muted}>
-                      ID: {card.job_id}
+                      ID: {card.id}
                     </p>
                     <h3 className={classes.title}>
-                      {card.job_name}
+                      {card.name==='template_deploy' ? 'Deploy' : 'Timeshift'}
                     </h3>
                     <p className={classes.muted}>
-                      {card.run_at}
+                      {card.processedOn}
                     </p>
                     <div className={classes.templates}>
-                      {jobDetail[i] !== undefined ? ( jobDetail[i].result ? 
-                      ( card.job_name === "Deploy Operation" ?
-                      card.job_details.templates.map((template, ia) => (
-                          <Fragment key={ia}>
-                            <Accordion className={classes.accordion} expanded={expanded[`panel${+i}-${ia}`]} onChange={() => handleChange(`panel${+i}-${ia}`)}>
-                              <AccordionSummary
-                                expandIcon={<ExpandMore />}
-                                aria-controls={`panel${+i}-${ia}bh-content`}
-                                id={`panel${+i}-${ia}bh-header`}
-                                className={classes.accordionSummary}
-                              >
-                                <p className={classes.heading}><b>{template}</b>{jobDetail[i].result[ia].status==='rejected' ?
-                                <ErrorOutline className={classes.errorOutline}/> : jobDetail[i].result[ia].value.status === 'Succeeded' ? <Check className={classes.headingCheck}/> : <Close className={classes.headingClose}/>}</p>
-                              </AccordionSummary>
-                              <AccordionDetails>
-                                <div className={classes.accordionBody} key={ia}>
-                                  {jobDetail[i].result[ia].status === 'rejected' ?
-                                      <p>{jobDetail[i].result[ia].reason}</p>
-                                    
-                                  :
-                                    <Fragment>
-                                      <p>Status: <b>{jobDetail[i].result[ia].value.status}</b></p>
-                                      <p>Total components: <b>{jobDetail[i].result[ia].value.numberComponentsTotal}</b></p>
-                                      <p>Deployed components: <b>{jobDetail[i].result[ia].value.numberComponentsDeployed}</b></p>
-                                      <p>Failed components: <b>{jobDetail[i].result[ia].value.numberComponentErrors}</b></p>
-                                    </Fragment>
-                                  }
-                                </div> 
-                              </AccordionDetails>
-                            </Accordion>
-                          </Fragment>
-                      ))
-                      : (
-                        jobDetail[i].result.success===false ? <p><b>Error message: </b><br/>{jobDetail[i].result.message}</p> 
-                        : 
-                          <Fragment>
-                            <Accordion className={classes.accordion} expanded={expanded[`panel-timeshift-${+i}-df1`]} onChange={() => handleChange(`panel-timeshift-${+i}-df1`)}>
-                              <AccordionSummary
-                                expandIcon={<ExpandMore />}
-                                aria-controls={`panel-timeshift-${+i}-df1bh-content`}
-                                id={`panel-timeshift-${+i}-df1bh-header`}
-                                className={classes.accordionSummary}
-                              >
-                                <p className={classes.heading}><b>{jobDetail[i].result.ongoingDataflow.tsLabel}</b></p>
-                              </AccordionSummary>
-                              <AccordionDetails>
-                                <div className={classes.accordionBody}>
-                                  
-                                </div> 
-                              </AccordionDetails>
-                            </Accordion>
-                            <Accordion className={classes.accordion} expanded={expanded[`panel-timeshift-${+i}-df2`]} onChange={() => handleChange(`panel-timeshift-${+i}-df2`)}>
-                              <AccordionSummary
-                                expandIcon={<ExpandMore />}
-                                aria-controls={`panel-timeshift-${+i}-df2bh-content`}
-                                id={`panel-timeshift-${+i}-${jobDetail[i].id}bh-header`}
-                                className={classes.accordionSummary}
-                              >
-                                <p className={classes.heading}><b>{jobDetail[i].result.primerDataflow.tsLabel}</b></p>
-                              </AccordionSummary>
-                              <AccordionDetails>
-                                <div className={classes.accordionBody}>
-                                  
-                                </div> 
-                              </AccordionDetails>
-                            </Accordion>
-                          </Fragment>
-                        ) ) 
-                      : pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.job_id) ) : 
-                        pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.job_id)
+                      {jobDetail[i] !== undefined ? ( jobDetail[i].returnvalue ? 
+                        <Fragment>
+                          <p>Status: <b>{jobDetail[i].returnvalue.status}</b></p>
+                          <p>Total components: <b>{jobDetail[i].returnvalue.result.deployResult.numberComponentsTotal}</b></p>
+                          <p>Deployed components: <b>{jobDetail[i].returnvalue.result.deployResult.numberComponentsDeployed}</b></p>
+                          <p>Failed components: <b>{jobDetail[i].returnvalue.result.deployResult.numberComponentErrors}</b></p>
+                          {jobDetail[i].finishedOn ? <p>Finished on: <b>{jobDetail[i].finishedOn}</b></p> : ''}
+                        </Fragment>
+                      : pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.id) ) : 
+                        pending(/* jobDetail[i] !== undefined ? jobDetail[i].id : 0 */card.id)
                       }
                     </div>
                   </CardContent>

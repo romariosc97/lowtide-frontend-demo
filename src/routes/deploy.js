@@ -106,12 +106,12 @@ const Deploy = () => {
                   //startExpanded={i === 0}
                   //warning={i === 6}
                   data={{
-                    name: card.template.label,
-                    description: card.template.description,
-                    tags: card.template.tags,
-                    template_key: card.template.template_key,
-                    dashboards: card.template.dashboards,
-                    datasets: card.template.datasets,
+                    name: card.label,
+                    description: card.description,
+                    tags: card.tags,
+                    template_key: card.api_name,
+                    dashboards: card.dashboards,
+                    datasets: card.datasets,
                   }}
                   handleCardSelection={handleCardSelection}
                 />
@@ -158,11 +158,11 @@ const Deploy = () => {
                 //startExpanded={i === 0}
                 //warning={i === 6}
                 data={{
-                  name: card.template.label,
-                  description: card.template.description,
-                  tags: card.template.tags,
-                  dashboards: card.template.dashboards,
-                  datasets: card.template.datasets,
+                  name: card.label,
+                  description: card.description,
+                  tags: card.tags,
+                  dashboards: card.dashboards,
+                  datasets: card.csvDatasets,
                 }}
               />
             ))}

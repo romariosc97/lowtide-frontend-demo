@@ -12,14 +12,14 @@ const useDeployCards = () => {
   });
 
   const getOrgTemplates = async () => {
-    const result = await templateAxios.get(`${API_URL}/org/template`);
-    const cards = result.data;
+    const result = await templateAxios.get(`${API_URL}/data/template`);
+    const cards = result.data.data;
     setOrgTemplates(cards);
   };
 
   const getAvailableTemplates = async () => {
-    const result = await templateAxios.get(`${API_URL}/repository/template/${branch}`);
-    const cards = result.data;
+    const result = await templateAxios.get(`${API_URL}/data/repository`);///${branch}
+    const cards = result.data.data;
     setAvailableTemplates(cards);
   };
 

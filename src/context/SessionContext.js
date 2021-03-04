@@ -28,76 +28,31 @@ const SessionContextProvider = (props) => {
     const jobsAxios = axios.create({
       withCredentials: true,
     });
-    return jobsAxios.get(`${API_URL}/jobs/session/all`);
+    return jobsAxios.get(`${API_URL}/data/job`);
   };
 
   useEffect(() => {
     let isMounted = false;
     if(!isMounted){
-      let consola = 0;
+      const logMessage = function(message) {
+			  console.log(message)
+			}
       const setNewUsername = async () => {
-        socket.emit("subscribeToJobUpdates");
-        socket.on("jobEnded", data => {
-          if(data.template_keys){
-            setSocketAux({id: data.id, result: data.result});
-            if(data.template_keys.length===1){
-              enqueueSnackbar(`Template "${data.template_keys[0]}" has been deployed successfully!`, 
-                {...SNACKBAR_DEFAULT, variant: 'success'}
-              )
-            }else{
-              enqueueSnackbar(`${data.template_keys.length} templates have been deployed successfully!`, 
-                {...SNACKBAR_DEFAULT, variant: 'success'}
-              )
-            }
-            setTemplatesDeployed([...templatesDeployed, ...data.template_keys]);
-            let deployingTmp = [];
-            for (let i = 0; i < deploying.length; i++) {
-              if(data.template_keys.indexOf(deploying[i])===-1){
-                deployingTmp.push(deploying[i]);
-              }
-            }
-            setDeploying(deployingTmp);
-
-          }else{
-            if(data.result.success){
-              enqueueSnackbar(`Job ${data.id} have been deployed successfully!`, 
-                {...SNACKBAR_DEFAULT, variant: 'success'}
-              )
-            }else{
-              enqueueSnackbar(`Job ${data.id}: ${data.result.message}`, 
-                {...SNACKBAR_DEFAULT, variant: 'error'}
-              )
-            }
-          }
-        });
-        socket.on("jobUpdate", data => {
-          if(data.job!==undefined){
-            consola = data.job.id;
-            setJobUpdates({...jobUpdates, [data.job.id]: data.message});
-          }else{
-            if(consola > 0){
-              setJobUpdates({...jobUpdates, [consola]: data.message});
-            }
-          }
-        });
-        socket.on("timeshiftUpdate", data => {
-          console.log(data);
-        });
         try {
           const [result, resultDetail] = await Promise.all([getSessionInfo(), getJobsDetail()]);
           setIsLoggedIn(true);
-          const sessionInfo = result.data;
+          const sessionInfo = result.data.data;
           const username = sessionInfo.salesforce.user.name;
           const instanceUrl = sessionInfo.salesforce.auth.instanceUrl;
           let jobs_tmp = [];
-          for (let i = 0; i < result.data.jobs.length; i++) {
-            if(resultDetail.data[i].result){
+          for (let i = 0; i < result.data.data.jobHistory.length; i++) {
+            if(resultDetail.data.data[i].returnvalue){
               
             }else{
-              jobs_tmp = jobs_tmp.concat(result.data.jobs[i].job_details.templates);
+              //jobs_tmp = jobs_tmp.concat(result.data.data.jobHistory[i].job_details.templates);
             }
           }
-          setJobDetail(resultDetail.data)
+          setJobDetail(resultDetail.data.data)
           setDeploying(jobs_tmp);
           setSessionInfo({username: username, instanceUrl: instanceUrl});
         } catch (error) {
@@ -105,6 +60,49 @@ const SessionContextProvider = (props) => {
           setJobDetail([])
           setDeploying([]);
         }
+        socket.emit('subscribeToJobUpdates', sessionInfo.socketRoom);
+        const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
+        for (const e of eventsList) {
+          socket.on(e, logMessage);
+        }
+        socket.on("jobSuccess", message => {
+          if(message.event.message==='Succeeded'){
+            if(message.data.job.name==='template_deploy'){
+              setSocketAux({id: message.data.job.id, result: message.data.result.deployResult, status: message.data.status});
+
+              enqueueSnackbar(`Template "${message.data.job.context.template}" has been deployed successfully!`, 
+                {...SNACKBAR_DEFAULT, variant: 'success'}
+              )
+              
+              setTemplatesDeployed([...templatesDeployed, message.data.job.context.template]);
+              let deployingTmp = deploying.filter((value) => value !== message.data.job.context.template);
+              setDeploying(deployingTmp);
+  
+            }else{
+              if(message.data.status==='success'){
+                enqueueSnackbar(`Job ${message.data.job.id} has been deployed successfully!`, 
+                  {...SNACKBAR_DEFAULT, variant: 'success'}
+                )
+              }else{
+                enqueueSnackbar(`Job ${message.data.job.id} has an error.`, 
+                  {...SNACKBAR_DEFAULT, variant: 'error'}
+                )
+              }
+            }
+          }
+        });
+        socket.on("jobStarted", message => {
+          setJobUpdates({...jobUpdates, [message.event.job.id]: 'Started'});
+        });
+        socket.on("jobInfo", data => {
+          console.log(data, 'jobInfo');
+        });
+        socket.on("jobUpdate", message => {
+          setJobUpdates({...jobUpdates, [message.event.job.id]: message.event.message});
+        });
+        socket.on("timeshiftUpdate", data => {
+          console.log(data);
+        });
       };
       setNewUsername();
     }

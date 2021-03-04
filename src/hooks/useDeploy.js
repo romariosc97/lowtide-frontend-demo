@@ -32,13 +32,12 @@ const useDeploy = () => {
       setSelectedTemplates([]);
       setDeploying([...deploying, ...tmp]);
 
-      const result = await deployAxios.post(`${API_URL}/repository/template/${branch}/deploy`, {
-        "templates": selectedTemplates
-      });
+      //const result = await deployAxios.post(`${API_URL}/repository/template/${branch}/deploy`, {
+      const result = await deployAxios.post(`${API_URL}/services/template/deploy`, selectedTemplates);
 
       setDeployStatus(false);
       setJobsPending(true);
-      setJobUpdates({...jobUpdates, [result.data.job_id]: "Deploying."});
+      setJobUpdates({...jobUpdates, [result.data.data[0].jobId]: "Deploying."});
     } catch (error) {
       setDeployStatus(false);
       console.log(error.message);

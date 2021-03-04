@@ -26,8 +26,8 @@ const useTimeshift = () => {
       const folderAxios = axios.create({
         withCredentials: true,
       });
-      const result = await folderAxios.get(`${API_URL}/org/dataset/${id}`);
-      setDatasets({...datasets, [id]: result.data})
+      const result = await folderAxios.get(`${API_URL}/data/dataset/folder/${id}`);
+      setDatasets({...datasets, [id]: result.data.data})
     }
   };
 
@@ -35,9 +35,9 @@ const useTimeshift = () => {
     const datasetAxios = axios.create({
       withCredentials: true,
     });
-    const result = await datasetAxios.get(`${API_URL}/org/folder`);
-    setFilterSource({...filterSource, ['folder']: result.data});
-    setFolders(result.data);
+    const result = await datasetAxios.get(`${API_URL}/data/folder`);
+    setFilterSource({...filterSource, ['folder']: result.data.data});
+    setFolders(result.data.data);
   };
 
   const timeshift = async () => {
@@ -45,23 +45,24 @@ const useTimeshift = () => {
     const datasetAxios = axios.create({
       withCredentials: true,
     });
-    
-    await datasetAxios.post(`${API_URL}/org/timeshift`, {
+    console.log('Timeshift TEST.')
+    /* await datasetAxios.post(`${API_URL}/org/timeshift`, {
       folderApiName: selectedFolder.folderApiName,
       folderLabel: selectedFolder.folderLabel,
       datasetArray: selectedDatasets
-    });
+    }); */
+
   };
 
   const getOrgFolders = async () => {
     const datasetAxios = axios.create({
       withCredentials: true,
     });
-    const result = await datasetAxios.get(`${API_URL}/org/dataflow/timeshift`);
-    setOrgFolders(result.data);
+    const result = await datasetAxios.get(`${API_URL}/data/dataflow/timeshift`);
+    setOrgFolders(result.data.data);
     let tmp = {};
-    for (let i = 0; i < result.data.length; i++) {
-      tmp = {...tmp, [result.data[i].Id]: false};
+    for (let i = 0; i < result.data.data.length; i++) {
+      tmp = {...tmp, [result.data.data[i].Id]: false};
     }
     setOrgExpanded(tmp);
   }
