@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useCardStyles = makeStyles({
   root: {
+    width: '100%',
     marginBottom: '1rem',
     marginTop: '1rem',
     boxShadow: 'none',

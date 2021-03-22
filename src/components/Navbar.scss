@@ -23,13 +23,13 @@
     }
 
     &__links {
-        width: 40%;
+        width: 57.5%;
         display: flex;
         font-weight: 600;
         color: $mid-gray;
 
         .navBar__link {
-            margin-right: 6rem;
+            margin: 0rem 1.5rem;
 
             &.active {
                 color: $main-blue;

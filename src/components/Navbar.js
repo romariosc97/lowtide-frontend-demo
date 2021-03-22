@@ -66,6 +66,41 @@ const Navbar = ({ activeTab }) => {
             Jobs {jobsPending ? <FiberManualRecord className={classes.pending}/> : ''}
           </div>
         </Link>
+        <Link to="/about">
+          <div
+            className={`navBar__link ${activeTab === 'about' ? 'active' : ''}`}
+          >
+            About
+          </div>
+        </Link>
+        <Link to="/issuesBugs">
+          <div
+            className={`navBar__link ${activeTab === 'issuesBugs' ? 'active' : ''}`}
+          >
+            Issues & Bugs
+          </div>
+        </Link>
+        <Link to="/people">
+          <div
+            className={`navBar__link ${activeTab === 'people' ? 'active' : ''}`}
+          >
+            People
+          </div>
+        </Link>
+        <Link to="/resources">
+          <div
+            className={`navBar__link ${activeTab === 'resources' ? 'active' : ''}`}
+          >
+            Resources
+          </div>
+        </Link>
+        <Link to="/faq">
+          <div
+            className={`navBar__link ${activeTab === 'faq' ? 'active' : ''}`}
+          >
+            FAQ
+          </div>
+        </Link>
       </div>
 
       <div className="navBar__status">

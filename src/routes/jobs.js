@@ -1,5 +1,5 @@
-import React, {Fragment, useEffect, useContext} from 'react'
-import NavBar from '../components/Navbar'
+import React, {Fragment, useEffect, useContext} from 'react';
+import NavBar from '../components/Navbar';
 import { Card, CardContent, CardActions, Accordion, AccordionDetails, AccordionSummary, Grid, CircularProgress, LinearProgress, Box } from '@material-ui/core';
 import { ExpandMore, Check, Close, BusinessCenter, ErrorOutline } from '@material-ui/icons';
 import useAccordionStyles from '../hooks/useAccordionStyles.js';
