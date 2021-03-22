@@ -35,7 +35,7 @@ const useCardStyles = makeStyles({
   },
   summaryRoot: {
     height: '3.5rem',
-    '&$expanded': {
+    '&.MuiAccordionSummary-root.Mui-expanded': {
       minHeight: '3.5rem',
     },
   },

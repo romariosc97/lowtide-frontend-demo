@@ -18,9 +18,8 @@
         justify-content: space-between;
     }
     .page-newContainer {
-        padding: 0 7vw;
+        padding: 16px 5vw;
         display: flex;
-        align-items: left;
         justify-content: space-between;
         flex-direction: column;
         .developers, .team-members {
@@ -42,17 +41,43 @@
             div{
                 margin: 4px 0px;
             }
+            a {
+                font-weight: 600;
+                transition: 0.4s;
+                color: $main-blue;
+            }
+            a:hover {
+                color: #3F81F3;
+            }
         }
         .issues-bugs{
+            .image{
+                background: url('./contact.jpg');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .form{
+                padding-left: 32px;
+                padding-right: 32px;
+                background-color: #FBFBFB;
+                input, textarea, .MuiInputBase-multiline{
+                    background: white;
+                }
+            }
             .title{
                 text-align: center;
+                padding-top: 16px;
             }
             .fields{
                 margin-top: 12px;
                 .half{
-                    padding-right: 8px;
+                    padding-right: 16px;
                     width: 50%;
                     box-sizing: border-box;
+                }
+                .half:last-child{
+                    padding-right: 0px;;
                 }
             }
             .text-area{
@@ -60,6 +85,7 @@
             }
             .actions{
                 text-align: center;
+                padding-bottom: 16px
             }
         }
     }
