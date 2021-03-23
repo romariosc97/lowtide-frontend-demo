@@ -4,11 +4,14 @@
     color: $dark-gray;
 
     .page-title {
-        margin: 1rem 0
+        margin: 1rem 0;
     }
 
     .page-description {
-        margin-bottom: 2rem
+        margin-bottom: 2rem;
+    }
+    .about.page-description{
+        text-align: justify;
     }
 
     .page-mainContainer {
@@ -18,12 +21,12 @@
         justify-content: space-between;
     }
     .page-newContainer {
-        padding: 16px 5vw;
+        margin-bottom: 2rem;
         display: flex;
         justify-content: space-between;
         flex-direction: column;
         .developers, .team-members {
-            h3{
+            h4{
                 margin-bottom: 8px;
                 color: #6b6b6b;
             }
@@ -50,43 +53,30 @@
                 color: #3F81F3;
             }
         }
-        .issues-bugs{
-            .image{
-                background: url('./contact.jpg');
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-            .form{
-                padding-left: 32px;
-                padding-right: 32px;
-                background-color: #FBFBFB;
-                input, textarea, .MuiInputBase-multiline{
-                    background: white;
-                }
-            }
-            .title{
-                text-align: center;
-                padding-top: 16px;
-            }
-            .fields{
-                margin-top: 12px;
-                .half{
-                    padding-right: 16px;
-                    width: 50%;
-                    box-sizing: border-box;
-                }
-                .half:last-child{
-                    padding-right: 0px;;
-                }
-            }
-            .text-area{
-                margin-bottom: 12px;
-            }
-            .actions{
-                text-align: center;
-                padding-bottom: 16px
-            }
+        .MuiAccordion-root{
+            margin-top: 0px;
         }
     }
+}
+.MuiDialogTitle-root{
+    position: relative;
+}
+.issues-bugs{
+    .form{
+        .MuiTextField-root{
+            background: white;
+            margin: 8px 0px;
+        }
+    }
+}
+.issues-bugs-link{
+    transition: 0.4s;
+    color: $main-blue;
+    cursor: pointer;
+}
+.issues-bugs-link:hover{
+    color: #3F81F3;
+}
+.MuiDialogActions-root{
+    padding: 12px 24px!important;
 }

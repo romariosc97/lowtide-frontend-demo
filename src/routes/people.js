@@ -3,7 +3,6 @@ import NavBar from '../components/Navbar';
 import {
   Box
 } from '@material-ui/core/';
-import useCardStyles from '../hooks/useCardStyles.js';
 
 function People() {
 

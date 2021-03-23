@@ -73,34 +73,38 @@ const Navbar = ({ activeTab }) => {
             About
           </div>
         </Link>
-        <Link to="/issuesBugs">
-          <div
-            className={`navBar__link ${activeTab === 'issuesBugs' ? 'active' : ''}`}
-          >
-            Issues & Bugs
-          </div>
-        </Link>
-        <Link to="/people">
-          <div
-            className={`navBar__link ${activeTab === 'people' ? 'active' : ''}`}
-          >
-            People
-          </div>
-        </Link>
-        <Link to="/resources">
-          <div
-            className={`navBar__link ${activeTab === 'resources' ? 'active' : ''}`}
-          >
-            Resources
-          </div>
-        </Link>
-        <Link to="/faq">
-          <div
-            className={`navBar__link ${activeTab === 'faq' ? 'active' : ''}`}
-          >
-            FAQ
-          </div>
-        </Link>
+        {
+          /*
+            <Link to="/issuesBugs">
+              <div
+                className={`navBar__link ${activeTab === 'issuesBugs' ? 'active' : ''}`}
+              >
+                Issues & Bugs
+              </div>
+            </Link>
+            <Link to="/people">
+              <div
+                className={`navBar__link ${activeTab === 'people' ? 'active' : ''}`}
+              >
+                People
+              </div>
+            </Link>
+            <Link to="/resources">
+              <div
+                className={`navBar__link ${activeTab === 'resources' ? 'active' : ''}`}
+              >
+                Resources
+              </div>
+            </Link>
+            <Link to="/faq">
+              <div
+                className={`navBar__link ${activeTab === 'faq' ? 'active' : ''}`}
+              >
+                FAQ
+              </div>
+            </Link>
+          */
+        }
       </div>
 
       <div className="navBar__status">
